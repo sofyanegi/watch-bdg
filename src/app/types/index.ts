@@ -4,4 +4,5 @@ export interface CCTVInterface {
   stream_cctv: string;
   lat?: number;
   lng?: number;
+  city?: string;
 }

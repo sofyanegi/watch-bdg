@@ -3,9 +3,10 @@
 import { useState, useEffect } from 'react';
 import { CCTVInterface } from '@/app/types';
 
-export default function CardCCTV({ id, cctv_name: title, stream_cctv: streamUrl }: CCTVInterface) {
+export default function CardCCTV({ id, cctv_name: title, stream_cctv: streamUrl, city }: CCTVInterface) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
@@ -14,35 +15,65 @@ export default function CardCCTV({ id, cctv_name: title, stream_cctv: streamUrl 
 
   const toggleFavorite = () => {
     const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    let updatedFavorites = [];
-
-    if (savedFavorites.includes(id)) {
-      updatedFavorites = savedFavorites.filter((favId: string) => favId !== id);
-    } else {
-      updatedFavorites = [...savedFavorites, id];
-    }
+    const updatedFavorites = savedFavorites.includes(id) ? savedFavorites.filter((favId: string) => favId !== id) : [...savedFavorites, id];
 
     setIsFavorite(!isFavorite);
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
   };
 
   return (
-    <div className="w-full max-w-md bg-white dark:bg-gray-900 shadow-lg rounded-xl overflow-hidden" key={id}>
+    <div className="w-full max-w-md bg-white dark:bg-gray-900 shadow-lg rounded-xl overflow-hidden">
       <div className="aspect-video bg-black relative">
-        {isLoading && (
+        {isLoading && !hasError && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-300 dark:bg-gray-800 animate-pulse">
-            <div className="w-full h-full bg-gray-400 dark:bg-gray-700 rounded-lg"></div>
+            <div className="w-12 h-12 border-4 border-gray-500 border-t-transparent rounded-full animate-spin"></div>
           </div>
         )}
 
-        <video autoPlay src={streamUrl} onLoadedData={() => setIsLoading(false)} controls className="w-full h-full" />
+        {!hasError ? (
+          <video
+            autoPlay
+            src={streamUrl}
+            controls
+            onLoadedData={() => {
+              setIsLoading(false);
+              setHasError(false);
+            }}
+            onError={() => {
+              setIsLoading(false);
+              setHasError(true);
+            }}
+            className="w-full h-full"
+          />
+        ) : (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-200 dark:bg-gray-800">
+            <p className="text-red-500 font-semibold">Stream Unavailable</p>
+            <button
+              onClick={() => {
+                setIsLoading(true);
+                setHasError(false);
+              }}
+              className="mt-3 px-4 py-1 bg-red-600 dark:bg-red-300 dark:text-red-800 text-white rounded hover:bg-red-700 transition"
+            >
+              Retry
+            </button>
+          </div>
+        )}
       </div>
 
-      <div className="flex justify-between items-center p-3 border-t dark:border-gray-700">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h3>
-        <button onClick={toggleFavorite} className={`p-2 rounded-full transition ${isFavorite ? 'text-red-500' : 'text-gray-400'}`}>
-          {isFavorite ? '❤️' : '🤍'}
-        </button>
+      <div className="p-4 border-t dark:border-gray-700">
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h3>
+          <button onClick={toggleFavorite} className={`p-2 rounded-full transition-transform transform ${isFavorite ? 'text-red-500 scale-110' : 'text-gray-400 hover:scale-105'}`}>
+            {isFavorite ? '❤️' : '🤍'}
+          </button>
+        </div>
+
+        {city && (
+          <div className="mt-2">
+            <span className="inline-block text-xs text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">{city}</span>
+          </div>
+        )}
       </div>
     </div>
   );
