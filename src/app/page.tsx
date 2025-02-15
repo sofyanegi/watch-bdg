@@ -60,7 +60,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="p-4 md:p-10 flex justify-center gap-5 flex-wrap">
+      <div className="p-4 md:p-6 flex justify-center gap-4 flex-wrap">
         {isLoading ? (
           Array.from({ length: showItemsCard }).map((_, index) => <SkeletonCard key={index} />)
         ) : filteredData.length > 0 ? (

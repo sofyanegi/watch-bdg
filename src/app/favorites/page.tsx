@@ -31,7 +31,7 @@ export default function FavoritesPage() {
     <>
       <h2 className="text-2xl font-semibold text-center mb-6">⭐ Favorite CCTV Streams</h2>
 
-      <div className="p-4 md:p-10 flex justify-center gap-5 flex-wrap">
+      <div className="p-4 md:p-6 flex justify-center gap-4 flex-wrap">
         {isLoading ? (
           Array.from({ length: 3 }).map((_, index) => <SkeletonCard key={index} />)
         ) : favorites.length === 0 ? (
