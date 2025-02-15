@@ -51,7 +51,7 @@ export function ThemeToggle() {
     <div className="p-4 bg-background text-foreground">
       <button onClick={toggleTheme} className="px-4 py-2 bg-primary text-primary-foreground rounded">
         {isDarkMode ? (
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="size-6">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
