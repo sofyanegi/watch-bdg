@@ -29,7 +29,7 @@ export default function manifest(): MetadataRoute.Manifest {
         name: 'Open Map',
         short_name: 'Map',
         description: 'Quick access to the CCTV map view',
-        url: '/map',
+        url: '/maps',
         icons: [{ src: '/globe.svg', sizes: '192x192', type: 'image/svg+xml' }],
       },
     ],
