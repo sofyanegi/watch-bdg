@@ -20,7 +20,11 @@ export default function CCTVMapPage() {
 
   const fetchCCTVData = useCallback(async () => {
     try {
-      const response = await fetch('/api/cctv');
+      const response = await fetch('/api/cctv', {
+        next: {
+          revalidate: 604800,
+        },
+      });
       const data = await response.json();
       setCCTVs(data);
     } catch (error) {
