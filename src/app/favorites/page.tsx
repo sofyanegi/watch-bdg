@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import CardCCTV from '@/app/components/CardCCTV';
+import CardCCTV from '@/components/CardCCTV';
 import { CCTVInterface } from '@/types';
-import SkeletonCard from '@/app/components/SkeletonCard';
+import SkeletonCard from '@/components/SkeletonCard';
 import Link from 'next/link';
 
 export default function FavoritesPage() {

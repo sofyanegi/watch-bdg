@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/context/ThemeContext';
 import Navbar from '@/components/Navbar';
+import SessionProvider from '@/context/SessionProvider';
 
 export const metadata: Metadata = {
   title: 'watch BDG',
@@ -17,8 +18,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`antialiased`}>
         <ThemeProvider>
-          <Navbar />
-          <main className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white pt-24">{children}</main>
+          <SessionProvider>
+            <Navbar />
+            <main className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white pt-24">{children}</main>
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

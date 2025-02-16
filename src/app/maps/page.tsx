@@ -5,7 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { CCTVInterface } from '@/types';
 import L from 'leaflet';
-import CardCCTV from '../components/CardCCTV';
+import CardCCTV from '@/components/CardCCTV';
 
 const cctvIcon = new L.Icon({
   iconUrl: '/pin.svg',
