@@ -33,8 +33,8 @@ export default function CardCCTV({ id, cctv_name: title, stream_cctv: streamUrl,
         {!hasError ? (
           <video
             autoPlay
-            src={streamUrl}
             controls
+            muted
             onLoadedData={() => {
               setIsLoading(false);
               setHasError(false);
@@ -44,7 +44,9 @@ export default function CardCCTV({ id, cctv_name: title, stream_cctv: streamUrl,
               setHasError(true);
             }}
             className="w-full h-full"
-          />
+          >
+            <source src={streamUrl} type="application/x-mpegURL" />
+          </video>
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-200 dark:bg-gray-800">
             <p className="text-red-500 font-semibold">Stream Unavailable</p>
@@ -65,7 +67,7 @@ export default function CardCCTV({ id, cctv_name: title, stream_cctv: streamUrl,
         <div className="flex justify-between items-center">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h3>
           <button onClick={toggleFavorite} className={`p-2 rounded-full transition-transform transform ${isFavorite ? 'text-red-500 scale-110' : 'text-gray-400 hover:scale-105'}`}>
-            {isFavorite ? '❤️' : '🤍'}
+            {isFavorite ? '⭐️' : '☆'}
           </button>
         </div>
 
