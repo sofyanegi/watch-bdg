@@ -2,24 +2,37 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'watch BDG',
-    short_name: 'watch BDG',
-    description: 'Bandung Watch is a website that provides information about CCTV in Bandung.',
+    name: 'Watch BDG',
+    short_name: 'Watch BDG',
+    description: 'Bandung Watch provides real-time CCTV information and traffic updates in Bandung.',
     start_url: '/',
     display: 'standalone',
+    orientation: 'portrait-primary',
     background_color: '#ffffff',
     theme_color: '#000000',
     icons: [
       {
-        src: '/icon-192x192.png',
+        src: '/globe.svg',
         sizes: '192x192',
-        type: 'image/png',
+        type: 'image/svg+xml',
+        purpose: 'maskable',
       },
       {
-        src: '/icon-512x512.png',
+        src: '/globe.svg',
         sizes: '512x512',
-        type: 'image/png',
+        type: 'image/svg+xml',
+        purpose: 'maskable',
       },
     ],
+    shortcuts: [
+      {
+        name: 'Open Map',
+        short_name: 'Map',
+        description: 'Quick access to the CCTV map view',
+        url: '/map',
+        icons: [{ src: '/globe.svg', sizes: '192x192', type: 'image/svg+xml' }],
+      },
+    ],
+    prefer_related_applications: false,
   };
 }
