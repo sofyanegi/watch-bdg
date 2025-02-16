@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { storeDataUser } from '@/services/firebase';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleAuthProvider from 'next-auth/providers/google';
-
-const allowedEmails = ['sofyanegil@gmail.com'];
 
 const authOptions: NextAuthOptions = {
   session: {
@@ -20,25 +19,19 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user }) {
-      // Only allow users with specified emails
-      if (user.email && allowedEmails.includes(user.email)) {
-        return true;
-      }
-      return false;
-    },
     async jwt({ token, account, user }: any) {
       if (account?.provider === 'google') {
-        token.email = user.email;
-        token.fullname = user.name;
-        token.role = 'user';
+        const userData: any = await storeDataUser(user);
+        token.email = userData.email;
+        token.name = userData.name;
+        token.role = userData.role;
       }
       return token;
     },
     async session({ session, token }: any) {
-      session.email = token.email;
-      session.fullname = token.fullname;
-      session.role = token.role;
+      session.user.email = token.email;
+      session.user.name = token.name;
+      session.user.role = token.role;
       return session;
     },
   },
