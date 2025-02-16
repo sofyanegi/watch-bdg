@@ -18,7 +18,11 @@ export default function Home() {
     const storedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     setFavorites(storedFavorites);
 
-    fetch('/api/cctv')
+    fetch('/api/cctv', {
+      next: {
+        revalidate: 604800, // 7 days in seconds
+      },
+    })
       .then((res) => res.json())
       .then((cctvList) => {
         const sortedData = cctvList.sort((a: CCTVInterface, b: CCTVInterface) => {

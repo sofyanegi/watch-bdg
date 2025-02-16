@@ -14,7 +14,11 @@ export default function FavoritesPage() {
     try {
       const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
 
-      fetch('/api/cctv')
+      fetch('/api/cctv', {
+        next: {
+          revalidate: 604800, // Revalidate every 7 days (60 * 60 * 24 * 7)
+        },
+      })
         .then((res) => res.json())
         .then((cctvList: CCTVInterface[]) => {
           setFavorites(cctvList.filter((cctv) => savedFavorites.includes(cctv.id)));
