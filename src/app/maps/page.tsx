@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { CCTVInterface } from '@/app/types';
+import { CCTVInterface } from '@/types';
 import L from 'leaflet';
 import CardCCTV from '../components/CardCCTV';
 

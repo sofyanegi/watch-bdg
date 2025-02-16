@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import CardCCTV from '@/app/components/CardCCTV';
-import SkeletonCard from '@/app/components/SkeletonCard';
-import { CCTVInterface } from '@/app/types';
+import CardCCTV from '@/components/CardCCTV';
+import SkeletonCard from '@/components/SkeletonCard';
+import { CCTVInterface } from '@/types';
 
 export default function Home() {
   const showItemsCard = 6;

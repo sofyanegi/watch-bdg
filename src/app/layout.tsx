@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { ThemeProvider } from './context/ThemeContext';
-import Navbar from '@/app/components/Navbar';
+import { ThemeProvider } from '@/context/ThemeContext';
+import Navbar from '@/components/Navbar';
 
 export const metadata: Metadata = {
   title: 'watch BDG',

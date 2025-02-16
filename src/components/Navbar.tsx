@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ThemeToggle } from '../context/ThemeContext';
+import { ThemeToggle } from '@/context/ThemeContext';
 import FavoriteButton from './FavoriteButton';
 import MapButton from './MapButton';
 

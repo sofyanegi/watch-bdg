@@ -1,4 +1,4 @@
-import { getCCTVCollection } from '@/app/services/firebase';
+import { getCCTVCollection } from '@/services/firebase';
 import { NextResponse } from 'next/server';
 
 export async function GET() {

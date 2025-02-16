@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import CardCCTV from '@/app/components/CardCCTV';
-import { CCTVInterface } from '@/app/types';
+import { CCTVInterface } from '@/types';
 import SkeletonCard from '@/app/components/SkeletonCard';
 import Link from 'next/link';
 
