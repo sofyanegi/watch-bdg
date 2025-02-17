@@ -1,36 +1,32 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import CardCCTV from '@/components/CardCCTV';
-import { CCTVInterface } from '@/types';
-import SkeletonCard from '@/components/SkeletonCard';
 import Link from 'next/link';
+import { CCTVInterface } from '@/types';
+import CardCCTV from '@/components/CardCCTV';
+import SkeletonCard from '@/components/SkeletonCard';
+import { getFavoritesCCTV } from '@/services/cctv';
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<CCTVInterface[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    try {
-      const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+  const fetchFavorites = async () => {
+    setIsLoading(true);
 
-      fetch('/api/cctv', {
-        next: {
-          revalidate: 604800, // Revalidate every 7 days (60 * 60 * 24 * 7)
-        },
-      })
-        .then((res) => res.json())
-        .then((cctvList: CCTVInterface[]) => {
-          setFavorites(cctvList.filter((cctv) => savedFavorites.includes(cctv.id)));
-        })
-        .catch((err) => console.error('Error fetching data:', err))
-        .finally(() => setIsLoading(false));
-    } catch (error) {
-      console.error('Failed to load favorites:', error);
+    try {
+      const updatedFavorites = await getFavoritesCCTV();
+      setFavorites(updatedFavorites);
+    } catch (err) {
+      console.error('Error fetching favorites:', err);
+    } finally {
       setIsLoading(false);
     }
-  }, []);
+  };
 
+  useEffect(() => {
+    fetchFavorites();
+  }, []);
   return (
     <>
       <h2 className="text-2xl font-semibold text-center mb-6">⭐ Favorite CCTV Streams</h2>
