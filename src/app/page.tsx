@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
+import { CCTVInterface } from '@/types';
 import CardCCTV from '@/components/CardCCTV';
 import SkeletonCard from '@/components/SkeletonCard';
-import { CCTVInterface } from '@/types';
+import { getCCTV } from '@/services/cctv';
 
 export default function Home() {
   const showItemsCard = 6;
@@ -12,30 +13,22 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
-  const [, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
-    const storedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    setFavorites(storedFavorites);
+    const loadCCTV = async () => {
+      setIsLoading(true);
 
-    fetch('/api/cctv', {
-      next: {
-        revalidate: 604800, // 7 days in seconds
-      },
-    })
-      .then((res) => res.json())
-      .then((cctvList) => {
-        const sortedData = cctvList.sort((a: CCTVInterface, b: CCTVInterface) => {
-          const aFav = storedFavorites.includes(a.id);
-          const bFav = storedFavorites.includes(b.id);
-          if (aFav !== bFav) return bFav - aFav;
-          return a.cctv_name.localeCompare(b.cctv_name);
-        });
+      try {
+        const cctvData = await getCCTV();
+        setData(cctvData);
+      } catch (err) {
+        console.error('Error fetching CCTV data:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-        setData(sortedData);
-      })
-      .catch((err) => console.error('Error fetching data:', err))
-      .finally(() => setIsLoading(false));
+    loadCCTV();
   }, []);
 
   const filteredData = useMemo(() => {
@@ -48,7 +41,6 @@ export default function Home() {
 
   return (
     <>
-      {/* 🔍 Search Input */}
       <div className="p-4 flex justify-center">
         <div className="relative w-full max-w-md">
           <input
@@ -58,15 +50,6 @@ export default function Home() {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full px-4 py-2 pl-10 border rounded-full dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           />
-          <svg className="absolute left-3 top-2.5 w-5 h-5 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35m1.85-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" />
-          </svg>
-
-          {searchQuery && (
-            <button onClick={() => setSearchQuery('')} className="absolute right-3 top-2.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition">
-              ✖
-            </button>
-          )}
         </div>
       </div>
 
@@ -84,7 +67,7 @@ export default function Home() {
         ))}
       </div>
 
-      <div className="p-4 md:p-6 flex justify-center gap-4 flex-wrap">
+      <div className="p-4 md:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {isLoading ? (
           Array.from({ length: showItemsCard }).map((_, index) => <SkeletonCard key={index} />)
         ) : filteredData.length > 0 ? (
