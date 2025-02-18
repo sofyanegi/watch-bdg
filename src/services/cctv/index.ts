@@ -1,13 +1,15 @@
 import { CCTVInterface } from '@/types';
 import get from '@/services/axios';
 
-const fetchCCTVData = async <T>(url: string, transformData: (data: T) => T): Promise<T> => {
+const CACHE_DAYS = 1;
+const CACHE_DURATION_MS = CACHE_DAYS * 24 * 60 * 60 * 1000;
+
+export const fetchCCTVData = async <T>(url: string, transformData: (data: T) => T): Promise<T> => {
   const cachedData = localStorage.getItem(url);
   const cachedTimestamp = localStorage.getItem(`${url}_timestamp`);
-  const sevenDays = 7 * 24 * 60 * 60 * 1000;
   const now = Date.now();
 
-  if (cachedData && cachedTimestamp && now - parseInt(cachedTimestamp) < sevenDays) {
+  if (cachedData && cachedTimestamp && now - parseInt(cachedTimestamp) < CACHE_DURATION_MS) {
     return transformData(JSON.parse(cachedData));
   } else {
     try {
@@ -28,8 +30,8 @@ const fetchCCTVData = async <T>(url: string, transformData: (data: T) => T): Pro
 
 const sortCCTVData = (list: CCTVInterface[], favorites: string[]): CCTVInterface[] => {
   return list.sort((a, b) => {
-    const aFav = favorites.includes(a.id);
-    const bFav = favorites.includes(b.id);
+    const aFav = a.cctv_id ? favorites.includes(a.cctv_id) : false;
+    const bFav = b.cctv_id ? favorites.includes(b.cctv_id) : false;
     return Number(bFav) - Number(aFav) || a.cctv_name.localeCompare(b.cctv_name);
   });
 };
@@ -42,5 +44,5 @@ export const getCCTV = async (): Promise<CCTVInterface[]> => {
 export const getFavoritesCCTV = async (): Promise<CCTVInterface[]> => {
   const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
   const cctvList = await getCCTV();
-  return cctvList.filter((cctv) => favorites.includes(cctv.id));
+  return cctvList.filter((cctv) => favorites.includes(cctv.cctv_id));
 };

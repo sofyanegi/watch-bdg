@@ -3,19 +3,19 @@
 import { useState, useEffect } from 'react';
 import { CCTVInterface } from '@/types';
 
-export default function CardCCTV({ id, cctv_name: title, stream_cctv: streamUrl, city }: CCTVInterface) {
+export default function CardCCTV({ cctv_id, cctv_name: title, cctv_stream: streamUrl, cctv_city }: CCTVInterface) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    setIsFavorite(savedFavorites.includes(id));
-  }, [id]);
+    setIsFavorite(savedFavorites.includes(cctv_id));
+  }, [cctv_id]);
 
   const toggleFavorite = () => {
     const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const updatedFavorites = savedFavorites.includes(id) ? savedFavorites.filter((favId: string) => favId !== id) : [...savedFavorites, id];
+    const updatedFavorites = savedFavorites.includes(cctv_id) ? savedFavorites.filter((favId: string) => favId !== cctv_id) : [...savedFavorites, cctv_id];
 
     setIsFavorite(!isFavorite);
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
@@ -71,9 +71,9 @@ export default function CardCCTV({ id, cctv_name: title, stream_cctv: streamUrl,
           </button>
         </div>
 
-        {city && (
+        {cctv_city && (
           <div className="mt-2">
-            <span className="inline-block text-xs text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">{city}</span>
+            <span className="inline-block text-xs text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">{cctv_city}</span>
           </div>
         )}
       </div>

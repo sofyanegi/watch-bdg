@@ -49,8 +49,8 @@ export default function CCTVMapPage() {
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
           {data.map((cctv: CCTVInterface) => (
-            <Marker key={cctv.id} position={[Number(cctv.lat), Number(cctv.lng)]} icon={cctvIcon}>
-              <Popup minWidth={300} maxWidth={300} position={[Number(cctv.lat), Number(cctv.lng)]}>
+            <Marker key={cctv.cctv_id} position={[Number(cctv.cctv_lat), Number(cctv.cctv_lng)]} icon={cctvIcon}>
+              <Popup minWidth={300} maxWidth={300} position={[Number(cctv.cctv_lat), Number(cctv.cctv_lng)]}>
                 <CardCCTV {...cctv} />
               </Popup>
             </Marker>

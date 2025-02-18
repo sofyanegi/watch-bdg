@@ -1,9 +1,10 @@
 import Link from 'next/link';
+import { Button } from './ui/button';
 
 export default function MapButton() {
   return (
     <Link href="/maps">
-      <button className="px-4 py-2 bg-primary text-primary-foreground rounded flex items-center justify-center">
+      <Button style={{ backgroundColor: 'transparent' }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -20,7 +21,7 @@ export default function MapButton() {
             strokeLinejoin="round"
           />
         </svg>
-      </button>
+      </Button>
     </Link>
   );
 }

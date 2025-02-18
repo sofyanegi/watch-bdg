@@ -1,8 +1,8 @@
 export interface CCTVInterface {
-  id: string;
+  cctv_id?: string | '';
   cctv_name: string;
-  stream_cctv: string;
-  lat?: string;
-  lng?: string;
-  city?: string;
+  cctv_stream: string;
+  cctv_lat?: string | '';
+  cctv_lng?: string | '';
+  cctv_city?: string | '';
 }
