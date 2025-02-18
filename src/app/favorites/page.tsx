@@ -31,13 +31,13 @@ export default function FavoritesPage() {
     <>
       <h2 className="text-2xl font-semibold text-center mb-6">⭐ Favorite CCTV Streams</h2>
 
-      <div className="p-4 md:p-6 flex justify-center gap-4 flex-wrap">
+      <div className="p-4 md:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
         {isLoading ? (
           Array.from({ length: 3 }).map((_, index) => <SkeletonCard key={index} />)
         ) : favorites.length === 0 ? (
           <p className="text-center text-gray-500 dark:text-gray-400">No favorite CCTV streams added yet.</p>
         ) : (
-          favorites.map((cctv) => <CardCCTV key={cctv.id} {...cctv} />)
+          favorites.map((cctv) => <CardCCTV key={cctv.cctv_id} {...cctv} />)
         )}
       </div>
 
