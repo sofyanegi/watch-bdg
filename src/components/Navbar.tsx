@@ -5,6 +5,7 @@ import { ThemeToggle } from '@/context/ThemeContext';
 import FavoriteButton from './FavoriteButton';
 import MapButton from './MapButton';
 import { signOut, useSession } from 'next-auth/react';
+import { Button } from './ui/button';
 
 export default function Navbar() {
   const { status } = useSession();
@@ -21,9 +22,9 @@ export default function Navbar() {
             <FavoriteButton />
             <ThemeToggle />
             {status === 'authenticated' && (
-              <button onClick={() => signOut()} className="px-4 py-2 bg-red-500 text-white rounded">
+              <Button onClick={() => signOut()} className=" bg-red-500 text-white">
                 Sign out
-              </button>
+              </Button>
             )}
           </div>
         </div>
