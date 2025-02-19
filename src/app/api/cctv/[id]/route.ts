@@ -4,7 +4,7 @@ import { CCTV } from '@/types';
 import { NextRequest, NextResponse } from 'next/server';
 
 // Utility to handle missing fields validation
-const validateCCTVFields = (data: CCTV) => {
+export const validateCCTVFields = (data: CCTV) => {
   if (!data.cctv_name || !data.cctv_stream || !data.cctv_city) {
     return { error: 'CCTV name, stream URL, and city are required.' };
   }
