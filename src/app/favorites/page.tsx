@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { CCTVInterface } from '@/types';
+import { CCTV } from '@/types';
 import CardCCTV from '@/components/CardCCTV';
 import SkeletonCard from '@/components/SkeletonCard';
 import { getFavoritesCCTV } from '@/services/cctv';
 
 export default function FavoritesPage() {
-  const [favorites, setFavorites] = useState<CCTVInterface[]>([]);
+  const [favorites, setFavorites] = useState<CCTV[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchFavorites = async () => {

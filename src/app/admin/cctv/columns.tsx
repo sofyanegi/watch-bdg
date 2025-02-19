@@ -1,4 +1,4 @@
-import { CCTVInterface } from '@/types';
+import { CCTV } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 
@@ -8,10 +8,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 interface ColumnsProps {
   setDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setAlertOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedCCTV: React.Dispatch<React.SetStateAction<CCTVInterface | null>>;
+  setSelectedCCTV: React.Dispatch<React.SetStateAction<CCTV | null>>;
 }
 
-export const columns = ({ setDialogOpen, setAlertOpen, setSelectedCCTV }: ColumnsProps): ColumnDef<CCTVInterface>[] => [
+export const columns = ({ setDialogOpen, setAlertOpen, setSelectedCCTV }: ColumnsProps): ColumnDef<CCTV>[] => [
   {
     header: 'CCTV Name',
     accessorKey: 'cctv_name',

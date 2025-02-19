@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { CCTVInterface } from '@/types';
+import { CCTV } from '@/types';
 import L from 'leaflet';
 import CardCCTV from '@/components/CardCCTV';
 import { getCCTV } from '@/services/cctv';
@@ -16,7 +16,7 @@ const cctvIcon = new L.Icon({
 });
 
 export default function CCTVMapPage() {
-  const [data, setData] = useState<CCTVInterface[]>([]);
+  const [data, setData] = useState<CCTV[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function CCTVMapPage() {
         <MapContainer center={defaultCenter} zoom={15} className="h-[75vh] w-full rounded-lg shadow-lg" scrollWheelZoom>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-          {data.map((cctv: CCTVInterface) => (
+          {data.map((cctv: CCTV) => (
             <Marker key={cctv.cctv_id} position={[Number(cctv.cctv_lat), Number(cctv.cctv_lng)]} icon={cctvIcon}>
               <Popup minWidth={300} maxWidth={300} position={[Number(cctv.cctv_lat), Number(cctv.cctv_lng)]}>
                 <CardCCTV {...cctv} />

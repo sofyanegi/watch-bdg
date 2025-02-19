@@ -1,5 +1,5 @@
 import { getCCTVs, storeCCTV } from '@/services/firebase';
-import { CCTVInterface } from '@/types';
+import { CCTV } from '@/types';
 import { NextRequest, NextResponse } from 'next/server';
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const cctv: CCTVInterface = await request.json();
+  const cctv: CCTV = await request.json();
   const storedCCTV = await storeCCTV(cctv);
   return NextResponse.json(storedCCTV);
 }

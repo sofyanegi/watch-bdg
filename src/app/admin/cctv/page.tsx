@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { CCTVInterface } from '@/types';
+import { CCTV } from '@/types';
 import { Button } from '@/components/ui/button';
 import { DialogBox } from './components/DialogBox';
 import { AlertBox } from './components/AlertBox';
@@ -11,17 +11,17 @@ import { columns } from './columns';
 import { useToast } from '@/hooks/use-toast';
 
 const CCTVManagement: React.FC = () => {
-  const [cctvs, setCCTVs] = useState<CCTVInterface[]>([]);
+  const [cctvs, setCCTVs] = useState<CCTV[]>([]);
   const [loading, setLoading] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
-  const [selectedCCTV, setSelectedCCTV] = useState<CCTVInterface | null>(null);
+  const [selectedCCTV, setSelectedCCTV] = useState<CCTV | null>(null);
   const { toast } = useToast();
 
   const fetchCCTVs = useCallback(async () => {
     setLoading(true);
     try {
-      const response: CCTVInterface[] = await get(`/api/cctv`);
+      const response: CCTV[] = await get(`/api/cctv`);
       setCCTVs(response);
     } catch (error) {
       console.error('Failed to fetch CCTVs:', error);
@@ -35,7 +35,7 @@ const CCTVManagement: React.FC = () => {
     fetchCCTVs();
   }, [fetchCCTVs]);
 
-  const handleSaveCCTV = async (newCCTV: CCTVInterface) => {
+  const handleSaveCCTV = async (newCCTV: CCTV) => {
     setLoading(true);
     try {
       let response;

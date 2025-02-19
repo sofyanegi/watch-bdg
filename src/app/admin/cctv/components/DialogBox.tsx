@@ -3,19 +3,19 @@
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { CCTVInterface } from '@/types';
+import { CCTV } from '@/types';
 
 interface DialogBoxProps {
   dialogOpen: boolean;
   setDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedCCTV: React.Dispatch<React.SetStateAction<CCTVInterface | null>>;
-  selectedCCTV: CCTVInterface | null;
-  handleSaveCCTV: (newCCTV: CCTVInterface) => void;
+  setSelectedCCTV: React.Dispatch<React.SetStateAction<CCTV | null>>;
+  selectedCCTV: CCTV | null;
+  handleSaveCCTV: (newCCTV: CCTV) => void;
   isLoading: boolean; // Loading state
 }
 
 export const DialogBox: React.FC<DialogBoxProps> = ({ dialogOpen, setDialogOpen, setSelectedCCTV, selectedCCTV, handleSaveCCTV, isLoading }) => {
-  const initialCCTV: CCTVInterface = {
+  const initialCCTV: CCTV = {
     cctv_id: '',
     cctv_name: '',
     cctv_stream: '',
@@ -26,7 +26,7 @@ export const DialogBox: React.FC<DialogBoxProps> = ({ dialogOpen, setDialogOpen,
 
   const cctv = selectedCCTV || initialCCTV;
 
-  const handleChange = (field: keyof CCTVInterface) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (field: keyof CCTV) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedCCTV({ ...cctv, [field]: e.target.value });
   };
 

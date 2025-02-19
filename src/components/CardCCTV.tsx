@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { CCTVInterface } from '@/types';
+import { CCTV } from '@/types';
 
-export default function CardCCTV({ cctv_id, cctv_name: title, cctv_stream: streamUrl, cctv_city }: CCTVInterface) {
+export default function CardCCTV({ cctv_id, cctv_name: title, cctv_stream: streamUrl, cctv_city }: CCTV) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
