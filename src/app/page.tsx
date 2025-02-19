@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import { CCTVInterface } from '@/types';
+import { CCTV } from '@/types';
 import CardCCTV from '@/components/CardCCTV';
 import SkeletonCard from '@/components/SkeletonCard';
 import { getCCTV } from '@/services/cctv';
@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 
 export default function Home() {
   const showItemsCard = 6;
-  const [data, setData] = useState<CCTVInterface[]>([]);
+  const [data, setData] = useState<CCTV[]>([]);
   const [visibleCount, setVisibleCount] = useState(showItemsCard);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -82,7 +82,7 @@ export default function Home() {
         {isLoading ? (
           Array.from({ length: showItemsCard }).map((_, index) => <SkeletonCard key={index} />)
         ) : filteredData.length > 0 ? (
-          filteredData.slice(0, visibleCount).map((cctv, index) => <CardCCTV key={index} {...cctv} />)
+          filteredData.slice(0, visibleCount).map((cctv) => <CardCCTV key={cctv.cctv_id} {...cctv} />)
         ) : searchQuery || selectedCity ? (
           <p className="text-center text-gray-500 dark:text-gray-400 mt-4">🚨 No results found</p>
         ) : null}

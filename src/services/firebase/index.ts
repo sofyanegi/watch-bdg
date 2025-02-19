@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CCTVInterface } from '@/types';
+import { CCTV } from '@/types';
 import { app } from './init';
 import { getFirestore, collection, getDocs, addDoc, query, where, orderBy, doc, deleteDoc, updateDoc, setDoc } from 'firebase/firestore';
 
@@ -21,7 +21,7 @@ export async function getCCTVs() {
   }
 }
 
-export async function storeCCTV(cctv: CCTVInterface) {
+export async function storeCCTV(cctv: CCTV) {
   try {
     const docRef = await addDoc(collection(db, 'cctvs'), cctv);
     const updatedData = { ...cctv, cctv_id: docRef.id };
@@ -48,7 +48,7 @@ export async function deleteCCTV(cctvId: string) {
   }
 }
 
-export async function updateCCTV(cctv: CCTVInterface, cctvId: string) {
+export async function updateCCTV(cctv: CCTV, cctvId: string) {
   try {
     const cctvDoc = await getDocumentByField('cctvs', 'cctv_id', cctvId);
     if (cctvDoc) {

@@ -1,15 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { deleteCCTV, updateCCTV } from '@/services/firebase';
-import { CCTVInterface } from '@/types';
+import { CCTV } from '@/types';
+import { cctvSchema } from '@/validation/schema';
 import { NextRequest, NextResponse } from 'next/server';
-
-// Utility to handle missing fields validation
-const validateCCTVFields = (data: CCTVInterface) => {
-  if (!data.cctv_name || !data.cctv_stream || !data.cctv_city) {
-    return { error: 'CCTV name, stream URL, and city are required.' };
-  }
-  return null;
-};
 
 // DELETE request handler
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -30,12 +23,13 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 // PUT request handler
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const id = (await params).id;
-  const data: CCTVInterface = await req.json();
+  const data: CCTV = await req.json();
 
   // Validate required fields
-  const validationError = validateCCTVFields(data);
-  if (validationError) {
-    return NextResponse.json(validationError, { status: 400 });
+  const validationResult = cctvSchema.safeParse(data);
+
+  if (!validationResult.success) {
+    return NextResponse.json({ errors: validationResult.error.format() }, { status: 400 });
   }
 
   try {
