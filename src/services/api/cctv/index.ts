@@ -1,7 +1,7 @@
 import { CCTV } from '@/types';
 import get from '@/lib/axios';
 
-const CACHE_DAYS = 1;
+const CACHE_DAYS = 1 / 2;
 const CACHE_DURATION_MS = CACHE_DAYS * 24 * 60 * 60 * 1000;
 
 const getLocalStorageItem = <T>(key: string, defaultValue: T): T => {
