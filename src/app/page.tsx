@@ -65,7 +65,7 @@ export default function Home() {
       </div>
 
       <div className="flex justify-center gap-2 mb-4">
-        {['Bandung', 'Bandung Barat'].map((city) => (
+        {[...new Set(data.map((cctv) => cctv.cctv_city).filter((city) => city !== undefined))].map((city) => (
           <Button
             key={city}
             onClick={() => setSelectedCity(selectedCity === city ? null : city)}
