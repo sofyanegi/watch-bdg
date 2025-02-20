@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 
 export default function MapButton() {
   return (
     <Link href="/maps">
-      <Button style={{ backgroundColor: 'transparent' }}>
+      <Button variant="ghost" size="icon">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

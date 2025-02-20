@@ -2,9 +2,9 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { CCTV } from '@/types';
-import CardCCTV from '@/components/CardCCTV';
-import SkeletonCard from '@/components/SkeletonCard';
-import { getCCTV } from '@/services/cctv';
+import CardCCTV from '@/components/cards/CardCCTV';
+import SkeletonCard from '@/components/cards/SkeletonCard';
+import { getCCTV } from '@/services/api/cctv';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 

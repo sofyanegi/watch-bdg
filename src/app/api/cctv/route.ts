@@ -9,21 +9,18 @@ export async function GET(request: NextRequest) {
 
   const page = parseInt(searchParams.get('page') || '1');
   const limit = parseInt(searchParams.get('limit') || '10');
-  const search = searchParams.get('search') || '';
 
   const cctvs = await getCCTVs();
 
-  if (!page || !limit || !search) {
+  if (!page || !limit) {
     return NextResponse.json(cctvs);
   }
 
-  const filteredCCTVs = search ? cctvs.filter((cctv) => cctv.cctv_name.toLowerCase().includes(search.toLowerCase())) : cctvs;
-
-  const totalRecords = filteredCCTVs.length;
+  const totalRecords = cctvs.length;
   const totalPages = Math.ceil(totalRecords / limit);
   const offset = (page - 1) * limit;
 
-  const paginatedData = filteredCCTVs.slice(offset, offset + limit);
+  const paginatedData = cctvs.slice(offset, offset + limit);
 
   return NextResponse.json({
     data: paginatedData,

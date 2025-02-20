@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { CCTV } from '@/types';
-import CardCCTV from '@/components/CardCCTV';
-import SkeletonCard from '@/components/SkeletonCard';
-import { getFavoritesCCTV } from '@/services/cctv';
+import CardCCTV from '@/components/cards/CardCCTV';
+import SkeletonCard from '@/components/cards/SkeletonCard';
+import { getFavoritesCCTV } from '@/services/api/cctv';
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<CCTV[]>([]);
