@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { CCTV } from '@/types';
+import { Badge } from '@/components/ui/badge';
 
 export default function CardCCTV({ cctv_id, cctv_name: title, cctv_stream: streamUrl, cctv_city }: CCTV) {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -73,7 +74,7 @@ export default function CardCCTV({ cctv_id, cctv_name: title, cctv_stream: strea
 
         {cctv_city && (
           <div className="mt-2">
-            <span className="inline-block text-xs text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-800 px-3 py-1 rounded-full">{cctv_city}</span>
+            <Badge className="text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-800 rounded-full">{cctv_city}</Badge>
           </div>
         )}
       </div>

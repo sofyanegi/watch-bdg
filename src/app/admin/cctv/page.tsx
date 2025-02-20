@@ -5,7 +5,7 @@ import { CCTV } from '@/types';
 import { Button } from '@/components/ui/button';
 import { DialogBox } from './components/DialogBox';
 import { AlertBox } from './components/AlertBox';
-import { get, post, del, put } from '@/services/axios';
+import { get, post, del, put } from '@/lib/axios';
 import { DataTable } from '@/components/ui/data-table';
 import { columns } from './columns';
 import { useToast } from '@/hooks/use-toast';
@@ -18,10 +18,11 @@ const CCTVManagement: React.FC = () => {
   const [selectedCCTV, setSelectedCCTV] = useState<CCTV | null>(null);
   const { toast } = useToast();
 
+  // Fetch CCTV data
   const fetchCCTVs = useCallback(async () => {
     setLoading(true);
     try {
-      const response: CCTV[] = await get(`/api/cctv`);
+      const response: CCTV[] = await get('/api/cctv');
       setCCTVs(response);
     } catch (error) {
       console.error('Failed to fetch CCTVs:', error);
@@ -38,34 +39,15 @@ const CCTVManagement: React.FC = () => {
   const handleSaveCCTV = async (newCCTV: CCTV) => {
     setLoading(true);
     try {
-      let response;
+      const endpoint = newCCTV.cctv_id ? `/api/cctv/${newCCTV.cctv_id}` : '/api/cctv';
+      const method = newCCTV.cctv_id ? put : post;
 
-      if (!newCCTV.cctv_id || newCCTV.cctv_id === '') {
-        response = await post('/api/cctv', JSON.stringify(newCCTV));
-      } else {
-        response = await put(`/api/cctv/${newCCTV.cctv_id}`, JSON.stringify(newCCTV));
-      }
-
-      if (response) {
-        toast({
-          title: 'Success',
-          description: 'CCTV saved successfully!',
-        });
-        fetchCCTVs();
-      } else {
-        toast({
-          title: 'Failed to save',
-          description: 'Failed to save CCTV. Please try again.',
-          variant: 'destructive',
-        });
-      }
+      await method(endpoint, JSON.stringify(newCCTV));
+      toast({ title: 'Success', description: 'CCTV saved successfully!' });
+      fetchCCTVs();
     } catch (error) {
       console.error('Failed to save CCTV:', error);
-      toast({
-        title: 'Error',
-        description: 'An error occurred while saving CCTV. Please try again.',
-        variant: 'destructive',
-      });
+      toast({ title: 'Error', description: 'An error occurred while saving CCTV.', variant: 'destructive' });
     } finally {
       setLoading(false);
       setDialogOpen(false);
@@ -73,30 +55,18 @@ const CCTVManagement: React.FC = () => {
     }
   };
 
+  // Handle delete CCTV
   const handleDeleteCCTV = async () => {
     setLoading(true);
     try {
-      const response = await del(`/api/cctv/${selectedCCTV?.cctv_id}`);
-      if (response) {
-        toast({
-          title: 'Success',
-          description: 'CCTV deleted successfully!',
-        });
+      if (selectedCCTV?.cctv_id) {
+        await del(`/api/cctv/${selectedCCTV.cctv_id}`);
+        toast({ title: 'Success', description: 'CCTV deleted successfully!' });
         fetchCCTVs();
-      } else {
-        toast({
-          title: 'Failed to delete',
-          description: 'Failed to delete CCTV. Please try again.',
-          variant: 'destructive',
-        });
       }
     } catch (error) {
       console.error('Failed to delete CCTV:', error);
-      toast({
-        title: 'Error',
-        description: 'An error occurred while delete CCTV. Please try again.',
-        variant: 'destructive',
-      });
+      toast({ title: 'Error', description: 'An error occurred while deleting CCTV.', variant: 'destructive' });
     } finally {
       setLoading(false);
       setAlertOpen(false);
@@ -107,11 +77,12 @@ const CCTVManagement: React.FC = () => {
   return (
     <div className="p-5">
       <Button
+        variant="outline"
+        className="mb-5 dark:bg-gray-800"
         onClick={() => {
           setDialogOpen(true);
           setSelectedCCTV(null);
         }}
-        className="mb-5"
       >
         Add CCTV
       </Button>
@@ -119,6 +90,7 @@ const CCTVManagement: React.FC = () => {
       <DataTable columns={columns({ setDialogOpen, setAlertOpen, setSelectedCCTV })} data={cctvs} searchable />
 
       <DialogBox dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} setSelectedCCTV={setSelectedCCTV} selectedCCTV={selectedCCTV} handleSaveCCTV={handleSaveCCTV} isLoading={loading} />
+
       <AlertBox alertOpen={alertOpen} setAlertOpen={setAlertOpen} handleDeleteCCTV={handleDeleteCCTV} isLoading={loading} />
     </div>
   );

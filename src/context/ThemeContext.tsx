@@ -49,7 +49,7 @@ export function ThemeToggle() {
   const { isDarkMode, toggleTheme } = useThemeContext();
 
   return (
-    <Button style={{ backgroundColor: 'transparent' }} onClick={toggleTheme}>
+    <Button variant="ghost" size="icon" onClick={toggleTheme}>
       {isDarkMode ? (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="size-6">
           <path

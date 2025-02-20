@@ -19,6 +19,10 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      const callbackUrl = url.includes('/login') ? baseUrl : url;
+      return callbackUrl;
+    },
     async jwt({ token, account, user }: any) {
       if (account?.provider === 'google') {
         const userData: any = await storeDataUser(user);
