@@ -4,7 +4,7 @@ import { ThemeProvider } from '@/context/ThemeContext';
 import Navbar from '@/components/common/Navbar';
 import SessionProvider from '@/context/SessionProvider';
 import { Toaster } from '@/components/ui/toaster';
-
+import { Analytics } from '@vercel/analytics/react';
 export const metadata: Metadata = {
   title: 'watch BDG',
   description: 'Bandung Watch is a website that provides information about CCTV in Bandung.',
@@ -25,6 +25,7 @@ export default function RootLayout({
             <Toaster />
           </SessionProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
