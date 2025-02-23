@@ -9,11 +9,19 @@ async function getDocumentByField(collectionName: string, field: string, value: 
   try {
     const q = query(collection(db, collectionName), where(field, '==', value));
     const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.length > 0 ? querySnapshot.docs[0] : null;
+
+    if (querySnapshot.empty) return null;
+
+    return querySnapshot.docs[0];
   } catch (error) {
-    console.error(`Error getting document by field: ${field} with value: ${value}`, error);
+    console.error(`❌ Error fetching document in "${collectionName}" where ${field} == ${value}:`, error);
     return null;
   }
+}
+
+export async function getCCTV(cctvId: string) {
+  const cctvDoc = await getDocumentByField('cctvs', 'cctv_id', cctvId);
+  return cctvDoc?.exists() ? cctvDoc.data() : null;
 }
 
 export async function getCCTVs() {
