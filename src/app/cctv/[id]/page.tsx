@@ -103,11 +103,11 @@ export default function CCTVDetail() {
         {/* Info Section */}
         <div className="p-4 border-t dark:border-gray-700">
           <div className="flex justify-between items-center">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2 justify-center">
               {cctv.cctv_name}
               <Badge className="text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-800 rounded-full">{cctv.cctv_city}</Badge>
             </h3>
-            <div className="mt-3 text-right flex gap-5">
+            <div className="text-right flex gap-5 justify-center items-center">
               <Link href={`https://www.google.com/maps?q=${cctv.cctv_lat},${cctv.cctv_lng}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 transition flex items-center gap-1">
                 <Map size={18} />
                 Open in Google Maps
