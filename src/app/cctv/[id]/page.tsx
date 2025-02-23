@@ -92,7 +92,7 @@ export default function CCTVDetail() {
   if (!cctv) return notFound();
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 p-4">
+    <div className="flex flex-col md:flex-row gap-6 p-4 -mt-8">
       {/* Main CCTV Section */}
       <div className="w-full md:flex-1 bg-white dark:bg-gray-900 shadow-lg rounded-2xl overflow-hidden transition hover:shadow-xl">
         {/* Video Player */}
