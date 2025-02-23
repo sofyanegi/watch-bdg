@@ -1,10 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { deleteCCTV, updateCCTV } from '@/services/firebase';
+import { deleteCCTV, getCCTV, updateCCTV } from '@/services/firebase';
 import { CCTV } from '@/types';
 import { cctvSchema } from '@/validation/schema';
 import { NextRequest, NextResponse } from 'next/server';
 
-// DELETE request handler
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const id = (await params).id;
+
+  if (!id || typeof id !== 'string') {
+    return NextResponse.json({ error: 'Invalid CCTV ID. ID must be a string.' }, { status: 400 });
+  }
+
+  try {
+    const data = await getCCTV(id);
+    return NextResponse.json(data, { status: 200 });
+  } catch (error: any) {
+    return NextResponse.json({ error: `Error fetching CCTV with ID ${id}: ${error?.message || error}` }, { status: 500 });
+  }
+}
+
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const id = (await params).id;
 
