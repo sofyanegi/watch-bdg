@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 export default function MapButton() {
   return (
     <Link href="/maps">
-      <Button variant="ghost" size="icon">
+      <Button variant="ghost" size="icon" className="dark:hover:bg-gray-800">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
