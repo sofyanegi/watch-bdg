@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { CCTV } from '@/types';
 import CardCCTV from '@/components/cards/CardCCTV';
 import SkeletonCard from '@/components/cards/SkeletonCard';
@@ -10,36 +12,65 @@ import { Button } from '@/components/ui/button';
 
 export default function Home() {
   const showItemsCard = 6;
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [data, setData] = useState<CCTV[]>([]);
   const [visibleCount, setVisibleCount] = useState(showItemsCard);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
 
   useEffect(() => {
+    const controller = new AbortController();
     const loadCCTV = async () => {
       setIsLoading(true);
-
       try {
         const cctvData = await getCCTV();
-        setData(cctvData);
+        if (!controller.signal.aborted) {
+          setData(cctvData);
+        }
       } catch (err) {
-        console.error('Error fetching CCTV data:', err);
+        if (!controller.signal.aborted) {
+          console.error('Error fetching CCTV data:', err);
+        }
       } finally {
         setIsLoading(false);
       }
     };
 
     loadCCTV();
+    return () => controller.abort();
   }, []);
 
+  const updateQueryParams = useCallback(
+    (query: string) => {
+      const params = new URLSearchParams();
+      if (query) params.set('q', query);
+      router.push(`/?${params.toString()}`, { scroll: false });
+    },
+    [router]
+  );
+
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const query = e.target.value;
+      setSearchQuery(query);
+      updateQueryParams(query);
+    },
+    [updateQueryParams]
+  );
+
   const filteredData = useMemo(() => {
-    return data.filter((cctv) => {
-      const matchesSearch = cctv.cctv_name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCity = selectedCity ? cctv.cctv_city === selectedCity : true;
-      return matchesSearch && matchesCity;
-    });
+    const queryLower = searchQuery.toLowerCase();
+    return data.filter((cctv) => cctv.cctv_name.toLowerCase().includes(queryLower) && (selectedCity ? cctv.cctv_city === selectedCity : true));
   }, [data, searchQuery, selectedCity]);
+
+  const cities = useMemo(() => {
+    const citySet = new Set<string>();
+    data.forEach((cctv) => cctv.cctv_city && citySet.add(cctv.cctv_city));
+    return Array.from(citySet);
+  }, [data]);
 
   return (
     <>
@@ -49,7 +80,7 @@ export default function Home() {
             type="text"
             placeholder="Search CCTV..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearchChange}
             className="w-full px-4 py-2 pl-10 border rounded-full dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           />
           <svg className="absolute left-3 top-2.5 w-5 h-5 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -57,7 +88,7 @@ export default function Home() {
           </svg>
 
           {searchQuery && (
-            <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition">
+            <button onClick={() => handleSearchChange({ target: { value: '' } } as any)} className="absolute right-3 top-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition">
               ✖
             </button>
           )}
@@ -65,7 +96,7 @@ export default function Home() {
       </div>
 
       <div className="flex justify-center gap-2 mb-4">
-        {[...new Set(data.map((cctv) => cctv.cctv_city).filter((city) => city !== undefined))].map((city) => (
+        {cities.map((city) => (
           <Button
             key={city}
             onClick={() => setSelectedCity(selectedCity === city ? null : city)}
@@ -84,7 +115,7 @@ export default function Home() {
         ) : filteredData.length > 0 ? (
           filteredData.slice(0, visibleCount).map((cctv) => <CardCCTV key={cctv.cctv_id} {...cctv} />)
         ) : searchQuery || selectedCity ? (
-          <p className="text-center text-gray-500 dark:text-gray-400 mt-4">🚨 No results found</p>
+          <p className="text-center text-gray-500 dark:text-gray-400 mt-4 col-span-3">🚨 No results found</p>
         ) : null}
       </div>
 
