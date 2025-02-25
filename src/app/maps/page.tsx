@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import 'react-leaflet-markercluster/styles';
 
 import { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, ZoomControl } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import { CCTV } from '@/types';
 import L from 'leaflet';
@@ -59,9 +59,9 @@ export default function CCTVMapPage() {
       {isLoading ? (
         <div className="h-[75vh] w-full bg-gray-300 dark:bg-gray-700 rounded-lg animate-pulse"></div>
       ) : (
-        <MapContainer center={defaultCenter} zoom={12} maxZoom={16} className="h-[75vh] w-full rounded-lg shadow-lg markercluster-map" scrollWheelZoom>
+        <MapContainer center={defaultCenter} zoom={12} maxZoom={16} className="h-[75vh] w-full rounded-lg shadow-lg markercluster-map" zoomControl={false}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&amp;copy Crafted by Sofyanegi" />
-
+          <ZoomControl position="bottomright" />
           <MarkerClusterGroup
             showCoverageOnHover={true}
             maxClusterRadius={40}
