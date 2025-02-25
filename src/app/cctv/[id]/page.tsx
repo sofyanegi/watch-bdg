@@ -12,6 +12,7 @@ import { Map } from 'lucide-react';
 import { MapContainer, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import { Button } from '@/components/ui/button';
+import { getDistance } from '@/lib/utils';
 
 export default function CCTVDetail() {
   const { id } = useParams();
@@ -19,7 +20,7 @@ export default function CCTVDetail() {
   const [cctvList, setCctvList] = useState<CCTV[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [relatedLimit, setRelatedLimit] = useState(window.innerWidth < 768 ? 4 : 3);
+  const [relatedLimit, setRelatedLimit] = useState<number>(window.innerWidth < 768 ? 4 : 3);
 
   useEffect(() => {
     const handleResize = () => setRelatedLimit(window.innerWidth < 768 ? 4 : 3);
@@ -49,16 +50,20 @@ export default function CCTVDetail() {
         const detailResponse = await fetch(`/api/cctv/${id}`);
         if (!detailResponse.ok) return notFound();
 
-        const detailData = await detailResponse.json();
-        setCctv(detailData);
+        const detailData: CCTV = await detailResponse.json();
+        const allCCTVs: CCTV[] = await getCCTV();
 
-        const allCCTVs = await getCCTV();
-        const relatedCCTVs = allCCTVs
-          .filter((item: CCTV) => item.cctv_id !== id)
-          .sort(() => Math.random() - 0.5)
+        const nearestCCTVs = allCCTVs
+          .filter((item) => item.cctv_id !== id)
+          .map((item) => ({
+            ...item,
+            distance: getDistance(Number(detailData.cctv_lat), Number(detailData.cctv_lng), Number(item.cctv_lat), Number(item.cctv_lng)),
+          }))
+          .sort((a, b) => a.distance - b.distance)
           .slice(0, relatedLimit);
 
-        setCctvList(relatedCCTVs);
+        setCctv(detailData);
+        setCctvList(nearestCCTVs);
       } catch (error) {
         console.error('Error fetching CCTV details:', error);
         notFound();
@@ -70,7 +75,6 @@ export default function CCTVDetail() {
     fetchData();
   }, [id, relatedLimit]);
 
-  // Custom marker for map
   const customIcon = new Icon({
     iconUrl: '/pin.svg',
     iconSize: [30, 30],
@@ -114,7 +118,7 @@ export default function CCTVDetail() {
             </div>
           </div>
 
-          <div className="mt-4 w-full h-[20vh] md:h-[50vh] rounded-lg overflow-hidden">
+          <div className="mt-4 w-full h-[20vh] md:h-[50vh] rounded-lg overflow-hidden relative z-0">
             <MapContainer center={[Number(cctv.cctv_lat), Number(cctv.cctv_lng)]} zoom={16} maxZoom={16} scrollWheelZoom={false} className="h-full w-full" zoomControl={false}>
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&amp;copy Crafted by Sofyanegi" />
               <ZoomControl position="bottomright" />
@@ -127,7 +131,7 @@ export default function CCTVDetail() {
       </div>
 
       <div className="w-full md:w-[350px]">
-        <h2 className="text-lg font-semibold mb-3">Related CCTVs</h2>
+        <h2 className="text-lg font-semibold mb-3">Nearest CCTVs</h2>
         <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
           {cctvList.map((cctvItem) => (
             <CardCCTV key={cctvItem.cctv_id} {...cctvItem} autoplay={false} />
