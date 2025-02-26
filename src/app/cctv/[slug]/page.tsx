@@ -45,7 +45,7 @@ export default function CCTVDetail() {
     } catch (error) {
       console.error('Error fetching CCTV details:', error);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => setIsLoading(false), 500);
     }
   }, [slug]);
 
