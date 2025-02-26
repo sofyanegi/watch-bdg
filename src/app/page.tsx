@@ -95,18 +95,20 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex justify-center gap-2 mb-4">
-        {cities.map((city) => (
-          <Button
-            key={city}
-            onClick={() => setSelectedCity(selectedCity === city ? null : city)}
-            className={`px-4 py-2 text-sm font-medium rounded-full transition border ${
-              selectedCity === city ? 'bg-blue-600 text-white shadow-md' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-300 dark:hover:bg-gray-600'
-            }`}
-          >
-            {city}
-          </Button>
-        ))}
+      <div className="mb-4">
+        <div className="flex sm:justify-center gap-2 overflow-x-auto whitespace-nowrap px-2 py-2 scrollbar-hide">
+          {cities.map((city) => (
+            <Button
+              key={city}
+              onClick={() => setSelectedCity(selectedCity === city ? null : city)}
+              className={`px-4 py-2 text-sm font-medium rounded-full transition border flex-shrink-0 ${
+                selectedCity === city ? 'bg-blue-600 text-white shadow-md' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-300 dark:hover:bg-gray-600'
+              }`}
+            >
+              {city}
+            </Button>
+          ))}
+        </div>
       </div>
 
       <div className="p-4 md:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
