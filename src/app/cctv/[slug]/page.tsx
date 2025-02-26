@@ -13,12 +13,15 @@ import { Icon } from 'leaflet';
 import { getDistance, generateSlug } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import ShareButton from '@/components/common/ShareButton';
+import LoadingVideo from '@/components/common/LoadingVideo';
 
 export default function CCTVDetail() {
   const { slug } = useParams();
   const [cctv, setCctv] = useState<CCTV | null>(null);
   const [cctvList, setCctvList] = useState<CCTV[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingVideo, setIsLoadingVideo] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
@@ -45,7 +48,7 @@ export default function CCTVDetail() {
     } catch (error) {
       console.error('Error fetching CCTV details:', error);
     } finally {
-      setTimeout(() => setIsLoading(false), 500);
+      setTimeout(() => setIsLoading(false), 300);
     }
   }, [slug]);
 
@@ -66,7 +69,7 @@ export default function CCTVDetail() {
 
   if (isLoading)
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center h-[80vh]">
         <div className="w-12 h-12 border-4 border-gray-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -76,16 +79,46 @@ export default function CCTVDetail() {
   return (
     <div className="flex flex-col md:flex-row gap-6 p-4 -mt-8">
       <div className="w-full md:flex-1 bg-white dark:bg-gray-900 shadow-lg rounded-2xl overflow-hidden transition hover:shadow-xl">
-        <div className="w-full bg-black rounded-t-2xl overflow-hidden">
-          <video src={cctv.cctv_stream} controls className="w-full h-[40vh] md:h-[75vh] aspect-video" autoPlay muted />
+        <div className="relative w-full bg-black rounded-t-2xl overflow-hidden">
+          {isLoadingVideo && !hasError && <LoadingVideo />}
+
+          <video
+            autoPlay
+            controls
+            muted
+            className="w-full h-[40vh] md:h-[75vh] aspect-video"
+            onLoadedData={() => setIsLoadingVideo(false)}
+            onError={() => {
+              setIsLoadingVideo(false);
+              setHasError(true);
+            }}
+          >
+            <source src={cctv.cctv_stream} type="application/x-mpegURL" />
+          </video>
+
+          {hasError && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-60 text-white">
+              <p className="text-red-500 font-semibold">Stream Unavailable</p>
+              <Button
+                variant={'destructive'}
+                onClick={() => {
+                  setIsLoadingVideo(true);
+                  setHasError(false);
+                }}
+                className="mt-3"
+              >
+                Retry
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="p-3 border-t dark:border-gray-700 flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2 justify-between">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
             {cctv.cctv_name}
             <Badge className="text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-800 rounded-full">{cctv.cctv_city}</Badge>
           </h3>
-          <ShareButton title={cctv.cctv_name} url={window.location.href} />
+          <ShareButton title={cctv.cctv_name} url={typeof window !== 'undefined' ? window.location.href : ''} />
         </div>
       </div>
 

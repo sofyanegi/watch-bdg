@@ -6,6 +6,8 @@ import { CCTV } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { generateSlug } from '@/lib/utils';
+import LoadingVideo from '../common/LoadingVideo';
+import { Button } from '@/components/ui/button';
 
 interface CardCCTVProps extends CCTV {
   autoplay?: boolean;
@@ -32,11 +34,7 @@ export default function CardCCTV({ cctv_id, cctv_name: title, cctv_stream: strea
   return (
     <div className="w-full max-w-md bg-white dark:bg-gray-900 shadow-lg rounded-xl overflow-hidden">
       <div className="aspect-video bg-black relative">
-        {autoplay && isLoading && !hasError && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-300 dark:bg-gray-800 animate-pulse">
-            <div className="w-12 h-12 border-4 border-gray-500 border-t-transparent rounded-full animate-spin"></div>
-          </div>
-        )}
+        {autoplay && isLoading && !hasError && <LoadingVideo />}
 
         {autoplay ? (
           !hasError ? (
@@ -57,17 +55,18 @@ export default function CardCCTV({ cctv_id, cctv_name: title, cctv_stream: strea
               <source src={streamUrl} type="application/x-mpegURL" />
             </video>
           ) : (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-200 dark:bg-gray-800">
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-60 text-white">
               <p className="text-red-500 font-semibold">Stream Unavailable</p>
-              <button
+              <Button
+                variant={'destructive'}
                 onClick={() => {
                   setIsLoading(true);
                   setHasError(false);
                 }}
-                className="mt-3 px-4 py-1 bg-red-600 dark:bg-red-300 dark:text-red-800 text-white rounded hover:bg-red-700 transition"
+                className="mt-3"
               >
                 Retry
-              </button>
+              </Button>
             </div>
           )
         ) : (
