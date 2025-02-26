@@ -5,6 +5,7 @@ import Navbar from '@/components/common/Navbar';
 import SessionProvider from '@/context/SessionProvider';
 import { Toaster } from '@/components/ui/toaster';
 import { Analytics } from '@vercel/analytics/react';
+import ScrollToTop from '@/components/common/ScrollToTop';
 export const metadata: Metadata = {
   title: 'watch BDG',
   description: 'Bandung Watch is a website that provides information about CCTV in Bandung.',
@@ -25,6 +26,7 @@ export default function RootLayout({
             <Toaster />
           </SessionProvider>
         </ThemeProvider>
+        <ScrollToTop />
         <Analytics />
       </body>
     </html>
