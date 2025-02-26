@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import slugify from 'slugify';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -15,3 +16,11 @@ export const getDistance = (lat1: number, lon1: number, lat2: number, lon2: numb
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 };
+
+export function generateSlug(name: string): string {
+  return slugify(name, {
+    lower: true, // Semua huruf jadi kecil
+    strict: true, // Hilangkan karakter khusus
+    trim: true, // Hapus spasi di awal & akhir
+  });
+}
