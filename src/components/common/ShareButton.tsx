@@ -20,6 +20,7 @@ export default function ShareButton({ title, url }: ShareButtonProps) {
     toast({
       title: 'Link copied to clipboard',
       description: 'You can now share the link with your friends.',
+      duration: 3000,
     });
     setTimeout(() => setCopied(false), 2000);
   };
