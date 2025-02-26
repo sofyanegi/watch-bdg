@@ -1,4 +1,5 @@
 export type CCTV = {
+  distance?: number;
   cctv_id?: string;
   cctv_name: string;
   cctv_stream: string;

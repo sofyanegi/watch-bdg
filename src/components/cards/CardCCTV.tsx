@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { CCTV } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
+import { generateSlug } from '@/lib/utils';
 
 interface CardCCTVProps extends CCTV {
   autoplay?: boolean;
@@ -78,8 +79,8 @@ export default function CardCCTV({ cctv_id, cctv_name: title, cctv_stream: strea
 
       <div className="p-4 border-t dark:border-gray-700">
         <div className="flex justify-between items-center">
-          <Link href={`/cctv/${cctv_id}`}>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h3>
+          <Link href={`/cctv/${generateSlug(title)}`} className="hover:underline">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white cursor-pointer">{title}</h3>
           </Link>
           <button onClick={toggleFavorite} className={`p-2 rounded-full transition-transform transform ${isFavorite ? 'text-red-500 scale-110' : 'text-gray-400 hover:scale-105'}`}>
             {isFavorite ? '⭐️' : '☆'}
