@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useEffect, useState, useMemo, useCallback } from 'react';
@@ -9,6 +8,7 @@ import SkeletonCard from '@/components/cards/SkeletonCard';
 import { getCCTV } from '@/services/api/cctv';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { ArrowUp } from 'lucide-react';
 
 export default function Home() {
   const showItemsCard = 6;
@@ -61,6 +61,23 @@ export default function Home() {
     [updateQueryParams]
   );
 
+  const handleClearSearch = useCallback(() => {
+    setSearchQuery('');
+    updateQueryParams('');
+  }, [updateQueryParams]);
+
+  const handleCityClick = useCallback((city: string) => {
+    setSelectedCity((prevCity) => (prevCity === city ? null : city));
+  }, []);
+
+  const handleShowMore = useCallback(() => {
+    setVisibleCount((prev) => prev + showItemsCard / 2);
+  }, []);
+
+  const handleScrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   const filteredData = useMemo(() => {
     const queryLower = searchQuery.toLowerCase();
     return data.filter((cctv) => cctv.cctv_name.toLowerCase().includes(queryLower) && (selectedCity ? cctv.cctv_city === selectedCity : true));
@@ -71,6 +88,18 @@ export default function Home() {
     data.forEach((cctv) => cctv.cctv_city && citySet.add(cctv.cctv_city));
     return Array.from(citySet);
   }, [data]);
+
+  const renderContent = () => {
+    if (isLoading) {
+      return Array.from({ length: showItemsCard }).map((_, index) => <SkeletonCard key={index} />);
+    }
+
+    if (filteredData.length === 0) {
+      return <p className="text-center text-gray-500 dark:text-gray-400 mt-4 col-span-3">🚨 No results found</p>;
+    }
+
+    return filteredData.slice(0, visibleCount).map((cctv) => <CardCCTV key={cctv.cctv_id} {...cctv} />);
+  };
 
   return (
     <>
@@ -88,7 +117,7 @@ export default function Home() {
           </svg>
 
           {searchQuery && (
-            <button onClick={() => handleSearchChange({ target: { value: '' } } as any)} className="absolute right-3 top-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition">
+            <button onClick={handleClearSearch} className="absolute right-3 top-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition">
               ✖
             </button>
           )}
@@ -100,9 +129,10 @@ export default function Home() {
           {cities.map((city) => (
             <Button
               key={city}
-              onClick={() => setSelectedCity(selectedCity === city ? null : city)}
-              className={`px-4 py-2 text-sm font-medium rounded-full transition border flex-shrink-0 ${
-                selectedCity === city ? 'bg-blue-600 text-white shadow-md' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:bg-gray-300 dark:hover:bg-gray-600'
+              variant={selectedCity === city ? 'default' : 'ghost'}
+              onClick={() => handleCityClick(city)}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                selectedCity === city ? 'bg-blue-600 text-white shadow-md hover:bg-blue-700' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
               }`}
             >
               {city}
@@ -111,30 +141,19 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="p-4 md:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
-        {isLoading ? (
-          Array.from({ length: showItemsCard }).map((_, index) => <SkeletonCard key={index} />)
-        ) : filteredData.length > 0 ? (
-          filteredData.slice(0, visibleCount).map((cctv) => <CardCCTV key={cctv.cctv_id} {...cctv} />)
-        ) : searchQuery || selectedCity ? (
-          <p className="text-center text-gray-500 dark:text-gray-400 mt-4 col-span-3">🚨 No results found</p>
-        ) : null}
-      </div>
+      <div className="p-4 md:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">{renderContent()}</div>
 
       {!isLoading && visibleCount < filteredData.length && (
         <div className="text-center mt-4 pb-11">
-          <button onClick={() => setVisibleCount((prev) => prev + showItemsCard / 2)} className="px-4 py-2 bg-slate-600 text-white rounded hover:bg-slate-700 transition">
+          <Button onClick={handleShowMore} className="px-4 py-2 bg-slate-600 text-white rounded hover:bg-slate-700 transition">
             Show More
-          </button>
+          </Button>
         </div>
       )}
 
-      <button
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className={`fixed right-4 bottom-4 p-2 bg-slate-600 text-white rounded-full shadow-lg hover:bg-slate-700 transition ${visibleCount > showItemsCard ? 'block' : 'hidden'}`}
-      >
-        ⬆
-      </button>
+      <Button onClick={handleScrollToTop} className={`fixed right-4 bottom-4 p-2 bg-slate-600 text-white rounded-full shadow-lg hover:bg-slate-700 transition ${visibleCount > showItemsCard ? 'block' : 'hidden'}`}>
+        <ArrowUp />
+      </Button>
     </>
   );
 }
