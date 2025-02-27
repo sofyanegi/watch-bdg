@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import ClientInfo from '@/components/buttons/ClientInfo';
 import { ArrowUp } from 'lucide-react';
+import { getCityColor } from '@/lib/utils';
 
 export default function Home() {
   const showItemsCard = 6;
@@ -132,9 +133,7 @@ export default function Home() {
               key={city}
               variant={selectedCity === city ? 'default' : 'ghost'}
               onClick={() => handleCityClick(city)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                selectedCity === city ? 'bg-blue-600 text-white shadow-md hover:bg-blue-700' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-              }`}
+              className={`rounded-full px-4 py-2 text-sm font-medium text-white ${selectedCity === city ? `${getCityColor(city)}` : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 '} transition`}
             >
               {city}
             </Button>

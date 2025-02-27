@@ -58,7 +58,7 @@ export default function CCTVMapPage() {
       {isLoading ? (
         <div className="h-[75vh] w-full bg-gray-300 dark:bg-gray-700 rounded-lg animate-pulse"></div>
       ) : (
-        <MapContainer center={defaultCenter} zoom={12} maxZoom={16} className="h-[75vh] w-full rounded-lg shadow-lg markercluster-map relative z-0" zoomControl={false}>
+        <MapContainer center={defaultCenter} zoom={12} maxZoom={16} className="h-[80vh] w-full rounded-lg shadow-lg markercluster-map relative z-0" zoomControl={false}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; Crafted by Sofyanegi" />
           <ZoomControl position="bottomright" />
           <MarkerClusterGroup
