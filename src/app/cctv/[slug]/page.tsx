@@ -14,6 +14,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import ShareButton from '@/components/common/ShareButton';
 import LoadingVideo from '@/components/common/LoadingVideo';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 
 export default function CCTVDetail() {
   const { slug } = useParams();
@@ -21,6 +23,7 @@ export default function CCTVDetail() {
   const [cctvList, setCctvList] = useState<CCTV[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [videoStatus, setVideoStatus] = useState<'loading' | 'error' | 'success'>('loading');
+  const [videoKey, setVideoKey] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,6 +54,11 @@ export default function CCTVDetail() {
     fetchData();
   }, [slug]);
 
+  const retryVideo = () => {
+    setVideoStatus('loading');
+    setVideoKey((prevKey) => prevKey + 1);
+  };
+
   const customIcon = useMemo(
     () =>
       new Icon({
@@ -76,14 +84,15 @@ export default function CCTVDetail() {
       <div className="w-full md:flex-1 bg-white dark:bg-gray-900 shadow-lg rounded-2xl overflow-hidden transition hover:shadow-xl">
         <div className="relative w-full bg-black rounded-t-2xl overflow-hidden">
           {videoStatus === 'loading' && <LoadingVideo />}
-          <video autoPlay controls muted className="w-full h-[40vh] md:h-[75vh] aspect-video" onLoadedData={() => setVideoStatus('success')} onError={() => setVideoStatus('error')}>
+
+          <video key={videoKey} autoPlay controls muted playsInline className="w-full h-[40vh] md:h-[75vh] aspect-video" onLoadedData={() => setVideoStatus('success')} onError={() => setVideoStatus('error')}>
             <source src={cctv.cctv_stream} type="application/x-mpegURL" />
           </video>
 
           {videoStatus === 'error' && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-60 text-white">
               <p className="text-red-500 font-semibold">Stream Unavailable</p>
-              <Button variant="destructive" onClick={() => setVideoStatus('loading')} className="mt-3">
+              <Button variant="destructive" onClick={retryVideo} className="mt-3">
                 Retry
               </Button>
             </div>
@@ -117,20 +126,21 @@ export default function CCTVDetail() {
             </Marker>
           </MapContainer>
         </div>
+        <h2 className="text-lg font-semibold mt-3 text-center">Nearest CCTVs</h2>
 
-        <h2 className="text-lg font-semibold my-4">Nearest CCTVs</h2>
-        <div className="space-y-3 max-h-[300px] md:max-h-[400px] overflow-y-auto">
-          {cctvList.map((cctvItem) => (
-            <Link
-              key={cctvItem.cctv_id}
-              href={`/cctv/${generateSlug(cctvItem.cctv_name)}`}
-              className="flex justify-between items-center p-2 bg-white dark:bg-gray-800 shadow-sm rounded-lg transition hover:bg-gray-100 dark:hover:bg-gray-700 border"
-            >
-              <p className="text-gray-900 dark:text-gray-200 font-medium text-sm md:text-base truncate w-3/4">{cctvItem.cctv_name}</p>
-              <span>{cctvItem.distance?.toFixed(2)} km</span>
-            </Link>
-          ))}
-        </div>
+        <ScrollArea className="h-[300px] md:h-[400px] w-full rounded-md">
+          <div className="p-2">
+            {cctvList.map((cctvItem) => (
+              <div key={cctvItem.cctv_id}>
+                <Link href={`/cctv/${generateSlug(cctvItem.cctv_name)}`} className="flex justify-between items-center p-2 bg-white dark:bg-gray-800 shadow-md rounded-lg transition hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <p className="text-gray-900 dark:text-gray-200 font-medium text-sm md:text-base truncate w-3/4">{cctvItem.cctv_name}</p>
+                  <span>{cctvItem.distance?.toFixed(2)} km</span>
+                </Link>
+                <Separator className="my-1 md:my-2" />
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
       </div>
     </div>
   );
