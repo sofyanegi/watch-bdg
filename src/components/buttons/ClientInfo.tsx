@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Info } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import LoadingVideo from '@/components/common/LoadingVideo';
 import type { ClientInfo } from '@/types';
 import { fetchClientInfo } from '@/services/api/clientInfo';
@@ -68,6 +68,9 @@ export default function ClientInfo() {
           <DialogTitle className="text-lg sm:text-xl font-bold mb-4">📡 Client Info</DialogTitle>
           {clientInfo ? <ClientInfoDisplay clientInfo={clientInfo} /> : <LoadingVideo />}
         </DialogHeader>
+        <DialogFooter>
+          <p className="text-xs text-gray-500 mx-auto">Disclaimer: This information is display for debugging purposes only and is not stored or shared with any third party.</p>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
