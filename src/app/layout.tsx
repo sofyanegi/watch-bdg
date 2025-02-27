@@ -10,7 +10,7 @@ import { ThemeProvider } from '@/context/ThemeContext';
 
 import Navbar from '@/components/common/Navbar';
 import ScrollToTop from '@/components/common/ScrollToTop';
-import ClientInfo from '@/components/buttons/ClientInfo';
+
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
@@ -29,10 +29,7 @@ export default function RootLayout({
         <ThemeProvider>
           <SessionProvider>
             <Navbar />
-            <main className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white pt-24 md:pt-20">
-              {children}
-              <ClientInfo />
-            </main>
+            <main className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white pt-24 md:pt-20">{children}</main>
             <Toaster />
           </SessionProvider>
         </ThemeProvider>

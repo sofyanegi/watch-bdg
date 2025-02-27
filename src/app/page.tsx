@@ -8,6 +8,7 @@ import SkeletonCard from '@/components/cards/SkeletonCard';
 import { getCCTV } from '@/services/api/cctv';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import ClientInfo from '@/components/buttons/ClientInfo';
 import { ArrowUp } from 'lucide-react';
 
 export default function Home() {
@@ -154,6 +155,7 @@ export default function Home() {
       <Button onClick={handleScrollToTop} className={`fixed right-4 bottom-4 p-2 bg-slate-600 text-white rounded-full shadow-lg hover:bg-slate-700 transition ${visibleCount > showItemsCard ? 'block' : 'hidden'}`}>
         <ArrowUp />
       </Button>
+      <ClientInfo />
     </>
   );
 }
