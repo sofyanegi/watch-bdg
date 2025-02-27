@@ -7,3 +7,20 @@ export type CCTV = {
   cctv_lng?: string;
   cctv_city?: string;
 };
+
+export interface ClientInfo {
+  browser: string;
+  browserVersion: string;
+  userAgent: string;
+  deviceType: 'Mobile' | 'Desktop';
+  supportsHLS: boolean;
+  ip?: string;
+  city?: string;
+  region?: string;
+  country?: string;
+  timezone?: string;
+  isp?: string;
+  batteryLevel?: number;
+  isCharging?: boolean;
+  gpu?: string;
+}
