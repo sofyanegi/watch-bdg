@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -9,18 +8,13 @@ import { generateSlug } from '@/lib/utils';
 import LoadingVideo from '../common/LoadingVideo';
 import { Button } from '@/components/ui/button';
 
-interface CardCCTVProps extends CCTV {
-  autoplay?: boolean;
-}
-
-export default function CardCCTV({ cctv_id, cctv_name: title, cctv_stream: streamUrl, cctv_city, autoplay = true }: CardCCTVProps) {
+export default function CardCCTV({ cctv_id, cctv_name: title, cctv_stream: streamUrl, cctv_city }: CCTV) {
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
+  const [videoStatus, setVideoStatus] = useState<'loading' | 'error' | 'success'>('loading');
+  const [videoKey, setVideoKey] = useState(0);
 
   useEffect(() => {
-    const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    setIsFavorite(savedFavorites.includes(cctv_id));
+    setIsFavorite(JSON.parse(localStorage.getItem('favorites') || '[]').includes(cctv_id));
   }, [cctv_id]);
 
   const toggleFavorite = () => {
@@ -31,48 +25,27 @@ export default function CardCCTV({ cctv_id, cctv_name: title, cctv_stream: strea
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
   };
 
+  const retryVideo = () => {
+    setVideoStatus('loading');
+    setVideoKey((prevKey) => prevKey + 1);
+  };
+
   return (
     <div className="w-full max-w-md bg-white dark:bg-gray-900 shadow-lg rounded-xl overflow-hidden">
       <div className="aspect-video bg-black relative">
-        {autoplay && isLoading && !hasError && <LoadingVideo />}
+        {videoStatus === 'loading' && <LoadingVideo />}
 
-        {autoplay ? (
-          !hasError ? (
-            <video
-              autoPlay
-              controls
-              muted
-              onLoadedData={() => {
-                setIsLoading(false);
-                setHasError(false);
-              }}
-              onError={() => {
-                setIsLoading(false);
-                setHasError(true);
-              }}
-              className="w-full h-full"
-            >
-              <source src={streamUrl} type="application/x-mpegURL" />
-            </video>
-          ) : (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-60 text-white">
-              <p className="text-red-500 font-semibold">Stream Unavailable</p>
-              <Button
-                variant={'destructive'}
-                onClick={() => {
-                  setIsLoading(true);
-                  setHasError(false);
-                }}
-                className="mt-3"
-              >
-                Retry
-              </Button>
-            </div>
-          )
+        {videoStatus !== 'error' ? (
+          <video key={videoKey} autoPlay controls muted playsInline onLoadedData={() => setVideoStatus('success')} onError={() => setVideoStatus('error')} className="w-full h-full">
+            <source src={streamUrl} type="application/x-mpegURL" />
+          </video>
         ) : (
-          <Link href={`/cctv/${cctv_id}`}>
-            <img src={'/globe.svg'} alt={title} className="w-full h-full object-cover cursor-pointer" />
-          </Link>
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-60 text-white">
+            <p className="text-red-500 font-semibold">Stream Unavailable</p>
+            <Button variant={'destructive'} onClick={retryVideo} className="mt-3">
+              Retry
+            </Button>
+          </div>
         )}
       </div>
 

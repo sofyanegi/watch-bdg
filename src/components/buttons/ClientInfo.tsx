@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Info } from 'lucide-react';
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import LoadingVideo from '@/components/common/LoadingVideo';
 import type { ClientInfo } from '@/types';
 import { fetchClientInfo } from '@/services/api/clientInfo';
@@ -59,18 +59,16 @@ export default function ClientInfo() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon" className="fixed bottom-4 left-4 dark:hover:bg-gray-800 bg-gray-200 dark:bg-gray-700 shadow-lg p-2 rounded-full">
+        <Button variant="ghost" size="icon" className="fixed bottom-2 left-2 dark:hover:bg-gray-800 bg-gray-300 dark:bg-gray-700 shadow-lg p-2 rounded-full">
           <Info className="w-5 h-5" />
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-lg sm:text-xl font-bold mb-4">📡 Client Info</DialogTitle>
+          <DialogDescription className="text-xs text-gray-500">Disclaimer: This information is display for debugging purposes only and is not stored or shared with any third party.</DialogDescription>
           {clientInfo ? <ClientInfoDisplay clientInfo={clientInfo} /> : <LoadingVideo />}
         </DialogHeader>
-        <DialogFooter>
-          <p className="text-xs text-gray-500 mx-auto">Disclaimer: This information is display for debugging purposes only and is not stored or shared with any third party.</p>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
