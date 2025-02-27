@@ -5,7 +5,7 @@ import { Star } from 'lucide-react';
 export default function FavoriteButton() {
   return (
     <Link href="/favorites">
-      <Button variant="link" size="icon">
+      <Button variant="ghost" size="icon">
         <Star size={24} />
       </Button>
     </Link>

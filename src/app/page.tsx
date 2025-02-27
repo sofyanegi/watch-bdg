@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import ClientInfo from '@/components/buttons/ClientInfo';
 import { ArrowUp } from 'lucide-react';
-import { getCityColor } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 
 export default function Home() {
   const showItemsCard = 6;
@@ -103,6 +103,15 @@ export default function Home() {
     return filteredData.slice(0, visibleCount).map((cctv) => <CardCCTV key={cctv.cctv_id} {...cctv} />);
   };
 
+  const cityColors: Record<string, { light: string; dark: string }> = {
+    Bandung: { light: 'bg-blue-500 hover:bg-red-600', dark: 'dark:bg-blue-700 dark:hover:bg-blue-800' },
+    'Kab. Bandung': { light: 'bg-green-600 hover:bg-green-700', dark: 'dark:bg-green-700 dark:hover:bg-green-800' },
+    'Bandung Barat': { light: 'bg-red-500 hover:bg-red-600', dark: 'dark:bg-red-600 dark:hover:bg-red-700' },
+    Cimahi: { light: 'bg-orange-500 hover:bg-orange-600', dark: 'dark:bg-orange-600 dark:hover:bg-orange-700' },
+  };
+
+  const getCityColor = (city: string) => (cityColors[city] ? `${cityColors[city].light} ${cityColors[city].dark}` : 'bg-gray-500 dark:bg-gray-700');
+
   return (
     <>
       <div className="p-4 flex justify-center -mt-4 md:mt-0">
@@ -133,7 +142,7 @@ export default function Home() {
               key={city}
               variant={selectedCity === city ? 'default' : 'ghost'}
               onClick={() => handleCityClick(city)}
-              className={`rounded-full px-4 py-2 text-sm font-medium text-white ${selectedCity === city ? `${getCityColor(city)}` : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 '} transition`}
+              className={cn('rounded-full px-4 py-2 text-sm font-medium transition text-white', selectedCity === city ? getCityColor(city) : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300')}
             >
               {city}
             </Button>
