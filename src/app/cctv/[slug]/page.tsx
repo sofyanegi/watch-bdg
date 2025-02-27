@@ -9,7 +9,7 @@ import { Icon } from 'leaflet';
 
 import { CCTV } from '@/types';
 import { getCCTV } from '@/services/api/cctv';
-import { getDistance, generateSlug } from '@/lib/utils';
+import { getDistance, generateSlug, getCityColor } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import ShareButton from '@/components/common/ShareButton';
@@ -80,7 +80,7 @@ export default function CCTVDetail() {
   if (!cctv) return notFound();
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 px-4 py-2">
+    <div className="flex flex-col md:flex-row gap-6 px-4 py-2 -mt-4 md:mt-0">
       <div className="w-full md:flex-1 bg-white dark:bg-gray-900 shadow-lg rounded-2xl overflow-hidden transition hover:shadow-xl">
         <div className="relative w-full bg-black rounded-t-2xl overflow-hidden">
           {videoStatus === 'loading' && <LoadingVideo />}
@@ -102,7 +102,7 @@ export default function CCTVDetail() {
         <div className="p-3 border-t dark:border-gray-700 flex items-center justify-between">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
             {cctv.cctv_name}
-            <Badge className="text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-800 rounded-full">{cctv.cctv_city}</Badge>
+            <Badge className={`text-white ${cctv.cctv_city ? getCityColor(cctv.cctv_city) : ''} rounded-full`}>{cctv.cctv_city}</Badge>
           </h3>
           <ShareButton title={cctv.cctv_name} url={typeof window !== 'undefined' ? window.location.href : ''} />
         </div>

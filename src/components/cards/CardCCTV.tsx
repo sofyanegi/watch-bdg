@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 import { CCTV } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { generateSlug } from '@/lib/utils';
+import { cn, generateSlug, getCityColor } from '@/lib/utils';
 import LoadingVideo from '../common/LoadingVideo';
 import { Button } from '@/components/ui/button';
+import { Star, StarOff } from 'lucide-react';
 
 export default function CardCCTV({ cctv_id, cctv_name: title, cctv_stream: streamUrl, cctv_city }: CCTV) {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -54,14 +55,14 @@ export default function CardCCTV({ cctv_id, cctv_name: title, cctv_stream: strea
           <Link href={`/cctv/${generateSlug(title)}`} className="hover:underline">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white cursor-pointer">{title}</h3>
           </Link>
-          <button onClick={toggleFavorite} className={`p-2 rounded-full transition-transform transform ${isFavorite ? 'text-red-500 scale-110' : 'text-gray-400 hover:scale-105'}`}>
-            {isFavorite ? '⭐️' : '☆'}
-          </button>
+          <Button variant="outline" size="icon" onClick={toggleFavorite} className={cn('rounded-full transition-transform hover:text-yellow-600', isFavorite ? 'text-yellow-500 scale-110' : 'text-gray-400')}>
+            {isFavorite ? <Star fill="currentColor" /> : <StarOff />}
+          </Button>
         </div>
 
         {cctv_city && (
           <div className="mt-2">
-            <Badge className="text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-800 rounded-full">{cctv_city}</Badge>
+            <Badge className={`text-white ${getCityColor(cctv_city)} rounded-full`}>{cctv_city}</Badge>
           </div>
         )}
       </div>
