@@ -52,7 +52,6 @@ export async function deleteCCTV(cctvId: string) {
     const cctvDoc = await getDocumentByField('cctvs', 'cctv_id', cctvId);
     if (cctvDoc) {
       await deleteDoc(doc(db, 'cctvs', cctvDoc.id));
-      console.log(`CCTV with id: ${cctvId} deleted successfully`);
     } else {
       console.warn(`No CCTV found with id: ${cctvId}`);
     }
@@ -67,7 +66,6 @@ export async function updateCCTV(cctv: CCTV, cctvId: string) {
     const cctvDoc = await getDocumentByField('cctvs', 'cctv_id', cctvId);
     if (cctvDoc) {
       await updateDoc(doc(db, 'cctvs', cctvDoc.id), { ...cctv });
-      console.log(`CCTV with id: ${cctvId} updated successfully`);
     } else {
       throw new Error(`No CCTV found with id: ${cctvId}`);
     }
