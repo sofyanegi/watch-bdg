@@ -101,7 +101,7 @@ export default function CCTVDetail() {
 
       <div className="w-full md:w-[350px]">
         <div className="w-full h-[20vh] md:h-[30vh] rounded-lg overflow-hidden">
-          <MapContainer center={[Number(cctv.cctv_lat), Number(cctv.cctv_lng)]} zoom={14} minZoom={13} maxZoom={15} scrollWheelZoom={false} className="h-full w-full" zoomControl={false} dragging={false}>
+          <MapContainer center={[Number(cctv.cctv_lat), Number(cctv.cctv_lng)]} zoom={14} minZoom={13} maxZoom={15} scrollWheelZoom={false} className="h-full w-full relative z-0" zoomControl={false} dragging={false}>
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
             <ZoomControl position="bottomright" />
             <Marker position={[Number(cctv.cctv_lat), Number(cctv.cctv_lng)]} icon={customIcon}>
