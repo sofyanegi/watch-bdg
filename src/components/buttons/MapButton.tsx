@@ -5,7 +5,7 @@ import { Map } from 'lucide-react';
 export default function MapButton() {
   return (
     <Link href="/maps">
-      <Button variant="link" size="icon">
+      <Button variant="ghost" size="icon">
         <Map size={24} />
       </Button>
     </Link>
