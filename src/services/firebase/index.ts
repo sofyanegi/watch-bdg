@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CCTV } from '@/types';
+import { CCTV, IPData, LogEntry } from '@/types';
 import { app } from './init';
-import { getFirestore, collection, getDocs, addDoc, query, where, orderBy, doc, deleteDoc, updateDoc, setDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, addDoc, query, where, orderBy, doc, deleteDoc, updateDoc, setDoc, Timestamp } from 'firebase/firestore';
 
 const db = getFirestore(app);
 
@@ -88,5 +88,45 @@ export async function storeDataUser(user: any) {
   } catch (error) {
     console.error('Error storing user data:', error);
     throw new Error('Failed to store user data');
+  }
+}
+
+export async function storeLogApiCCTV(userAgent: string, ipData: IPData) {
+  try {
+    await addDoc(collection(db, 'logs_api_cctv'), {
+      userAgent,
+      ipData,
+      timestamp: Timestamp.now(),
+      ttl: Timestamp.fromMillis(Date.now() + 7 * 24 * 60 * 60 * 1000), // +7 days
+    });
+  } catch (error) {
+    console.error('Error storing log:', error);
+  }
+}
+
+export async function getLogsApiCCTV(): Promise<LogEntry[]> {
+  try {
+    const querySnapshot = await getDocs(query(collection(db, 'logs_api_cctv'), orderBy('timestamp', 'desc')));
+
+    return querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        userAgent: data.userAgent || 'Unknown',
+        ipData: {
+          ip: data.ipData?.ip || 'Unknown',
+          city: data.ipData?.city || 'Unknown',
+          region: data.ipData?.region || 'Unknown',
+          country: data.ipData?.country || 'Unknown',
+          timezone: data.ipData?.timezone || 'Unknown',
+          isp: data.ipData?.isp || 'Unknown',
+        },
+        timestamp: data.timestamp?.toDate().toISOString() || 'Unknown',
+        ttl: data.ttl?.toDate().toISOString() || 'Unknown',
+      };
+    });
+  } catch (error) {
+    console.error('Failed to fetch API logs:', error);
+    throw new Error('Failed to fetch API logs');
   }
 }

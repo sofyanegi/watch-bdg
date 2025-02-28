@@ -24,3 +24,15 @@ export function generateSlug(name: string): string {
     trim: true,
   });
 }
+
+export async function getIPInfo() {
+  try {
+    const res = await fetch('https://ipinfo.io/json?token=f1b8493e2d524f');
+    if (!res.ok) throw new Error(`Failed to fetch IP info: ${res.status}`);
+    const { ip, city, region, country, timezone, org } = await res.json();
+    return { ip, city, region, country, timezone, isp: org };
+  } catch (error) {
+    console.error('Error fetching IP info:', error);
+    return {};
+  }
+}

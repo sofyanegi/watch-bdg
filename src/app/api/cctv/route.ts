@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getCCTVs, storeCCTV } from '@/services/firebase';
+import { getIPInfo } from '@/lib/utils';
+import { getCCTVs, storeCCTV, storeLogApiCCTV } from '@/services/firebase';
 import { CCTV } from '@/types';
 import { cctvSchema } from '@/validation/schema';
 import { NextRequest, NextResponse } from 'next/server';
@@ -9,6 +10,10 @@ export async function GET(request: NextRequest) {
 
   const page = parseInt(searchParams.get('page') || '');
   const limit = parseInt(searchParams.get('limit') || '');
+
+  const userAgent = request.headers.get('user-agent') || 'Unknown';
+  const ipData = await getIPInfo();
+  await storeLogApiCCTV(userAgent, ipData);
 
   const cctvs = await getCCTVs();
 
