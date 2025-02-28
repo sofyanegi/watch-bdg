@@ -24,3 +24,25 @@ export function generateSlug(name: string): string {
     trim: true,
   });
 }
+
+export const extractUserAgent = (userAgent: string): string => {
+  if (!userAgent) return 'Unknown';
+
+  const isMobile = /Mobile|Android|iPhone/i.test(userAgent);
+
+  const browserMatch = userAgent.match(/(Chrome|Firefox|Safari|Edge|Opera|SamsungBrowser|UCBrowser|MiuiBrowser|VivoBrowser|OppoBrowser)\/?\s*(\d+)/i);
+  const osMatch = userAgent.match(/\(([^)]+)\)/);
+
+  const brandMatch = userAgent.match(/(Xiaomi|Redmi|Samsung|Vivo|Oppo|Realme|Huawei|Honor|OnePlus|Nokia)/i);
+  const brand = brandMatch ? brandMatch[1] : null;
+
+  const browser = browserMatch ? `${browserMatch[1]} ${browserMatch[2]}` : 'Unknown Browser';
+
+  let os = 'Unknown OS';
+  if (osMatch) {
+    const osParts = osMatch[1].split(';').map((part) => part.trim());
+    os = osParts.find((part) => /(Windows|Mac OS X|Android|iOS|Linux)/i.test(part)) || osParts[0];
+  }
+
+  return brand ? `${browser} on ${brand} (${os})` : `${browser} on ${os} ${isMobile ? '(Mobile)' : '(Desktop)'}`;
+};

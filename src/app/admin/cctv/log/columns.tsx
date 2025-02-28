@@ -1,22 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { LogEntry } from '@/types';
-
-const extractUserAgent = (userAgent: string): string => {
-  if (!userAgent) return 'Unknown';
-
-  const isMobile = /Mobile|Android|iPhone/i.test(userAgent);
-
-  const browserMatch = userAgent.match(/(Chrome|Firefox|Safari|Edge|Opera|SamsungBrowser|UCBrowser|MiuiBrowser|VivoBrowser|OppoBrowser)\/?\s*(\d+)/i);
-  const osMatch = userAgent.match(/\(([^)]+)\)/);
-
-  const brandMatch = userAgent.match(/(Xiaomi|Redmi|Samsung|Vivo|Oppo|Realme|Huawei|Honor|OnePlus|Nokia)/i);
-  const brand = brandMatch ? brandMatch[1] : null;
-
-  const browser = browserMatch ? `${browserMatch[1]} ${browserMatch[2]}` : 'Unknown Browser';
-  const os = osMatch ? osMatch[1].split(';')[0] : 'Unknown OS';
-
-  return brand ? `${browser} on ${brand} (${os})` : `${browser} on ${os} ${isMobile ? '(Mobile)' : '(Desktop)'}`;
-};
+import { extractUserAgent } from '@/lib/utils';
 
 export const columns: ColumnDef<LogEntry>[] = [
   {
