@@ -1,44 +1,52 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { LogEntry } from '@/types';
 
+const extractUserAgent = (userAgent: string): string => {
+  if (!userAgent) return 'Unknown';
+
+  const isMobile = /Mobile|Android|iPhone/i.test(userAgent);
+
+  const browserMatch = userAgent.match(/(Chrome|Firefox|Safari|Edge|Opera|SamsungBrowser|UCBrowser|MiuiBrowser|VivoBrowser|OppoBrowser)\/?\s*(\d+)/i);
+  const osMatch = userAgent.match(/\(([^)]+)\)/);
+
+  const brandMatch = userAgent.match(/(Xiaomi|Redmi|Samsung|Vivo|Oppo|Realme|Huawei|Honor|OnePlus|Nokia)/i);
+  const brand = brandMatch ? brandMatch[1] : null;
+
+  const browser = browserMatch ? `${browserMatch[1]} ${browserMatch[2]}` : 'Unknown Browser';
+  const os = osMatch ? osMatch[1].split(';')[0] : 'Unknown OS';
+
+  return brand ? `${browser} on ${brand} (${os})` : `${browser} on ${os} ${isMobile ? '(Mobile)' : '(Desktop)'}`;
+};
+
 export const columns: ColumnDef<LogEntry>[] = [
   {
-    header: 'Browser | Device Type',
+    header: 'User Agent',
     accessorKey: 'userAgent',
-    enableSorting: true,
     cell: ({ getValue }) => {
-      const userAgent = getValue() as string;
-      if (!userAgent) return 'Unknown | Unknown';
-
-      const match = userAgent.match(/(firefox|msie|trident|chrome|safari|edge|opr|brave)\/?\s*(\d+)/i);
-      const browser = match ? match[1].charAt(0).toUpperCase() + match[1].slice(1) : 'Unknown';
-
-      const isMobile = /Mobi|Android|iPhone|iPad/i.test(userAgent);
-      const deviceType = isMobile ? 'Mobile' : 'Desktop';
-
-      return `${browser} | ${deviceType}`;
+      const userAgent = getValue<string>();
+      return extractUserAgent(userAgent);
     },
   },
   {
     header: 'IP Address',
-    accessorKey: 'ipData.ip',
+    accessorKey: 'ip',
     enableSorting: true,
   },
   {
     header: 'City',
-    accessorKey: 'ipData.city',
+    accessorKey: 'city',
   },
   {
     header: 'Region',
-    accessorKey: 'ipData.region',
+    accessorKey: 'region',
   },
   {
     header: 'Country',
-    accessorKey: 'ipData.country',
+    accessorKey: 'country',
   },
   {
     header: 'ISP',
-    accessorKey: 'ipData.isp',
+    accessorKey: 'isp',
   },
   {
     header: 'Timestamp',

@@ -8,6 +8,7 @@ import LoadingVideo from '@/components/common/LoadingVideo';
 import type { ClientInfo } from '@/types';
 import { fetchClientInfo } from '@/services/api/clientInfo';
 import Link from 'next/link';
+import { logUserAccess } from '@/app/actions/log';
 
 const ClientInfoDisplay = ({ clientInfo }: { clientInfo: ClientInfo }) => {
   const infoList = useMemo(
@@ -54,6 +55,7 @@ export default function ClientInfo() {
     try {
       const data = await fetchClientInfo();
       setClientInfo(data);
+      await logUserAccess(data);
     } catch (error) {
       console.error('Failed to fetch client info:', error);
     }
