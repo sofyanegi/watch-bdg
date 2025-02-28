@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 export type CCTV = {
   distance?: number;
   cctv_id?: string;
@@ -23,4 +25,21 @@ export interface ClientInfo {
   batteryLevel?: number;
   isCharging?: boolean;
   gpu?: string;
+}
+
+export interface LogEntry {
+  id?: string;
+  userAgent: string;
+  ipData: IPData;
+  timestamp?: Timestamp;
+  ttl: Timestamp;
+}
+
+export interface IPData {
+  ip?: string;
+  city?: string;
+  region?: string;
+  country?: string;
+  timezone?: string;
+  isp?: string;
 }
