@@ -23,7 +23,7 @@ export default function LogPages() {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-5 text-center">API Logs</h1>
+      <h1 className="text-2xl font-semibold text-gray-800 mb-5 text-center">User Logs</h1>
       <DataTable columns={columns} data={logs} />
     </div>
   );

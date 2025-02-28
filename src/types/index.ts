@@ -27,10 +27,8 @@ export interface ClientInfo {
   gpu?: string;
 }
 
-export interface LogEntry {
+export interface LogEntry extends ClientInfo {
   id?: string;
-  userAgent: string;
-  ipData: IPData;
   timestamp?: Timestamp;
   ttl: Timestamp;
 }

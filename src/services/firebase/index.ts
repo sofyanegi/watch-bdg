@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CCTV, IPData, LogEntry } from '@/types';
+import { CCTV, ClientInfo, LogEntry } from '@/types';
 import { app } from './init';
 import { getFirestore, collection, getDocs, addDoc, query, where, orderBy, doc, deleteDoc, updateDoc, setDoc, Timestamp } from 'firebase/firestore';
 
@@ -91,42 +91,49 @@ export async function storeDataUser(user: any) {
   }
 }
 
-export async function storeLogApiCCTV(userAgent: string, ipData: IPData) {
+export async function saveUserAccessLog(clientInfo: ClientInfo) {
   try {
-    await addDoc(collection(db, 'logs_api_cctv'), {
-      userAgent,
-      ipData,
+    const logData = {
+      ...clientInfo,
       timestamp: Timestamp.now(),
-      ttl: Timestamp.fromMillis(Date.now() + 7 * 24 * 60 * 60 * 1000), // +7 days
-    });
+      ttl: Timestamp.fromMillis(Date.now() + 7 * 24 * 60 * 60 * 1000), // Expires in 7 days
+    };
+
+    await addDoc(collection(db, 'logs_user_access'), logData);
+    return { success: true, message: 'Log saved successfully' };
   } catch (error) {
-    console.error('Error storing log:', error);
+    console.error('Error saving log:', error);
+    return { success: false, message: 'Error saving log' };
   }
 }
 
-export async function getLogsApiCCTV(): Promise<LogEntry[]> {
+export async function getUserAccessLogs(): Promise<LogEntry[]> {
   try {
-    const querySnapshot = await getDocs(query(collection(db, 'logs_api_cctv'), orderBy('timestamp', 'desc')));
-
+    const querySnapshot = await getDocs(query(collection(db, 'logs_user_access'), orderBy('timestamp', 'desc')));
     return querySnapshot.docs.map((doc) => {
       const data = doc.data();
       return {
         id: doc.id,
+        browser: data.browser || 'Unknown',
+        browserVersion: data.browserVersion || 'Unknown',
         userAgent: data.userAgent || 'Unknown',
-        ipData: {
-          ip: data.ipData?.ip || 'Unknown',
-          city: data.ipData?.city || 'Unknown',
-          region: data.ipData?.region || 'Unknown',
-          country: data.ipData?.country || 'Unknown',
-          timezone: data.ipData?.timezone || 'Unknown',
-          isp: data.ipData?.isp || 'Unknown',
-        },
+        deviceType: data.deviceType || 'Unknown',
+        supportsHLS: data.supportsHLS || false,
+        ip: data.ip || 'Unknown',
+        city: data.city || 'Unknown',
+        region: data.region || 'Unknown',
+        country: data.country || 'Unknown',
+        timezone: data.timezone || 'Unknown',
+        isp: data.isp || 'Unknown',
+        batteryLevel: data.batteryLevel || 'Unknown',
+        isCharging: data.isCharging || 'Unknown',
+        gpu: data.gpu || 'Unknown',
         timestamp: data.timestamp?.toDate().toISOString() || 'Unknown',
         ttl: data.ttl?.toDate().toISOString() || 'Unknown',
       };
     });
   } catch (error) {
-    console.error('Failed to fetch API logs:', error);
-    throw new Error('Failed to fetch API logs');
+    console.error('Failed to fetch user access logs:', error);
+    throw new Error('Failed to fetch user access logs');
   }
 }
