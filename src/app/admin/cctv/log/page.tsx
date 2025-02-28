@@ -1,30 +1,83 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { LogEntry } from '@/types';
 import { DataTable } from '@/components/ui/data-table';
 import { columns } from './columns';
-import { get } from '@/lib/axios';
+import { del, get } from '@/lib/axios';
+import { Button } from '@/components/ui/button';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import LoadingVideo from '@/components/common/LoadingVideo';
 
 export default function LogPages() {
   const [logs, setLogs] = useState<LogEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(false);
+
+  const fetchLogs = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await get<LogEntry[]>('/api/cctv/log');
+      setLogs(res);
+    } catch (error) {
+      console.error('Error fetching logs:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    async function fetchLogs() {
-      try {
-        const res = await get('/api/cctv/log');
-        setLogs(res as LogEntry[]);
-      } catch (error) {
-        console.error('Error fetching logs:', error);
-      }
-    }
     fetchLogs();
+  }, [fetchLogs]);
+
+  const onDeleteAllLogs = useCallback(async () => {
+    try {
+      setDeleting(true);
+      await del('/api/cctv/log');
+      setLogs([]);
+    } catch (error) {
+      console.error('Error deleting logs:', error);
+    } finally {
+      setDeleting(false);
+    }
   }, []);
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-5 text-center">User Logs</h1>
-      <DataTable columns={columns} data={logs} />
+      {loading ? (
+        <LoadingVideo />
+      ) : logs.length > 0 ? (
+        <>
+          <h1 className="text-2xl font-semibold text-gray-800 mb-5 text-center">User Logs</h1>
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" className="my-2">
+                Delete All Logs
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>This action cannot be undone. This will permanently delete all user logs from our servers.</AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={onDeleteAllLogs} disabled={deleting}>
+                  {deleting ? 'Deleting...' : 'Continue'}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
+          <DataTable columns={columns} data={logs} />
+        </>
+      ) : (
+        <div className="text-center">
+          <h1 className="text-2xl font-semibold text-gray-800 mb-5">No logs found</h1>
+          <Button onClick={fetchLogs}>Refresh</Button>
+        </div>
+      )}
     </div>
   );
 }
