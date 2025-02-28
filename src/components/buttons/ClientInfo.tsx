@@ -91,10 +91,12 @@ export default function ClientInfo() {
           </div>
         </DialogHeader>
         <DialogFooter className="text-xs text-gray-500 mt-4 text-center mx-auto">
-          ©{new Date().getFullYear()} Crafted by
-          <Link href="https://saweria.co/sofyanegi" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline mx-1 font-bold">
-            Sofyanegi
-          </Link>
+          <span className="inline-flex items-center">
+            ©{new Date().getFullYear()} Crafted by
+            <Link href="https://saweria.co/sofyanegi" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline mx-1 font-bold">
+              Sofyanegi
+            </Link>
+          </span>
         </DialogFooter>
       </DialogContent>
     </Dialog>
