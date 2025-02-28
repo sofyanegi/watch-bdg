@@ -137,3 +137,22 @@ export async function getUserAccessLogs(): Promise<LogEntry[]> {
     throw new Error('Failed to fetch user access logs');
   }
 }
+
+export const deleteAllDocuments = async (collectionName: string): Promise<void> => {
+  try {
+    const colRef = collection(db, collectionName); // Referensi koleksi
+    const snapshot = await getDocs(colRef); // Ambil semua dokumen dalam koleksi
+
+    if (snapshot.empty) {
+      console.log(`No documents found in collection: ${collectionName}`);
+      return;
+    }
+
+    const deletePromises = snapshot.docs.map((docSnapshot) => deleteDoc(doc(db, collectionName, docSnapshot.id)));
+
+    await Promise.all(deletePromises); // Tunggu semua dokumen terhapus
+    console.log(`All documents in collection "${collectionName}" have been deleted.`);
+  } catch (error) {
+    console.error(`Error deleting documents in collection "${collectionName}":`, error);
+  }
+};
