@@ -18,7 +18,7 @@ export default function CCTVMap({ cctv }: CCTVMapProps) {
   });
 
   return (
-    <div className="w-full h-[20vh] md:h-[30vh] rounded-lg overflow-hidden">
+    <div className="w-full h-[20vh] md:h-[27vh] rounded-lg overflow-hidden relative z-0">
       <MapContainer center={[Number(cctv.cctv_lat), Number(cctv.cctv_lng)]} zoom={14} minZoom={13} maxZoom={15} scrollWheelZoom={false} className="h-full w-full" zoomControl={false} dragging={false}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
         <ZoomControl position="bottomright" />

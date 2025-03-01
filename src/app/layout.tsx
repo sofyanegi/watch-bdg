@@ -22,9 +22,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`antialiased`}>
         <ThemeProvider>
-          <SessionProvider>{children}</SessionProvider>
+          <SessionProvider>
+            {children}
+            <Analytics />
+          </SessionProvider>
         </ThemeProvider>
-        <Analytics />
       </body>
     </html>
   );

@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { useFavoritesStore } from '@/stores/useCCTVStore';
 import { Star, StarOff } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { getCityColor } from '@/app/(public)/_component/CityFilter';
 
 interface VideoPlayerProps {
   cctv: CCTV;
@@ -25,7 +26,7 @@ export default function VideoPlayer({ cctv }: VideoPlayerProps) {
   };
 
   return (
-    <div className="w-full md:flex-1 bg-white dark:bg-gray-900 shadow-lg rounded-2xl overflow-hidden transition hover:shadow-xl">
+    <div className="w-full md:flex-1 shadow-lg rounded-2xl overflow-hidden transition hover:shadow-xl">
       <div className="relative w-full bg-black rounded-t-2xl overflow-hidden">
         {videoStatus === 'loading' && <LoadingVideo />}
 
@@ -45,17 +46,17 @@ export default function VideoPlayer({ cctv }: VideoPlayerProps) {
 
       <div className="p-4 border-t dark:border-gray-700 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h3 className="text-base md:text-lg lg:text-xl font-semibold text-gray-900 dark:text-white">{cctv.cctv_name}</h3>
-          <Badge className="bg-blue-500 text-white rounded-full">{cctv.cctv_city}</Badge>
+          <h3 className="text-base md:text-lg lg:text-xl font-semibold">{cctv.cctv_name}</h3>
+          <Badge className={cn('text-white rounded-full', getCityColor(cctv?.cctv_city || ''))}>{cctv.cctv_city}</Badge>
         </div>
 
         <div className="flex items-center gap-3">
           <ShareButton title={cctv.cctv_name} url={typeof window !== 'undefined' ? window.location.href : ''} />
           <Button
-            variant="ghost"
+            variant="outline"
             size="icon"
             onClick={() => cctv.cctv_id && toggleFavorite(cctv.cctv_id)}
-            className={cn('rounded-full transition-transform duration-200', isFavorite ? 'text-yellow-500 scale-110' : 'text-gray-400 hover:text-gray-600')}
+            className={cn('rounded-full transition-transform hover:text-yellow-600 bg-white dark:bg-gray-800', isFavorite ? 'text-yellow-500 scale-110' : 'text-gray-400')}
           >
             {isFavorite ? <Star fill="currentColor" /> : <StarOff />}
           </Button>

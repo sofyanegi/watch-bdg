@@ -50,7 +50,7 @@ export function ThemeToggle() {
   const { isDarkMode, toggleTheme } = useThemeContext();
 
   return (
-    <Button variant="ghost" size="icon" className="dark:hover:bg-gray-800" onClick={toggleTheme}>
+    <Button variant="ghost" size="icon" onClick={toggleTheme}>
       {isDarkMode ? <Moon size={24} /> : <Sun size={24} />}
     </Button>
   );

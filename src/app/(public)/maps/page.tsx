@@ -35,7 +35,7 @@ export default function CCTVMapPage() {
   }, [fetchCCTVs]);
 
   return (
-    <div className="h-max-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-3 pt-0 md:px-4 -mt-1">
+    <div className="h-max-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white p-3 pt-0 md:px-4">
       <h2 className="text-2xl font-bold text-center mb-6">📍 CCTV Live Map</h2>
 
       {isLoading ? (
