@@ -1,8 +1,8 @@
 import { CCTV } from '@/types';
 import get from '@/lib/axios';
 
-const CACHE_DAYS = 1 / 8;
-const CACHE_DURATION_MS = CACHE_DAYS * 24 * 60 * 60 * 1000;
+const CACHE_HOURS = 3;
+const CACHE_DURATION_MS = CACHE_HOURS * 60 * 60 * 1000;
 
 const getLocalStorageItem = <T>(key: string, defaultValue: T): T => {
   try {
@@ -22,39 +22,31 @@ const setLocalStorageItem = (key: string, value: unknown) => {
   }
 };
 
-export const fetchCCTVData = async <T>(url: string, transformData: (data: T) => T = (data) => data): Promise<T> => {
+export const fetchCCTVData = async <T>(url: string): Promise<T> => {
   const cachedData = getLocalStorageItem<T | null>(url, null);
   const cachedTimestamp = getLocalStorageItem<number | null>(`${url}_timestamp`, null);
   const now = Date.now();
 
   if (cachedData && cachedTimestamp && now - cachedTimestamp < CACHE_DURATION_MS) {
-    return transformData(cachedData);
+    return cachedData;
   }
 
   try {
     const res = await get<T>(url);
-    const processedData = transformData(res.data);
+    const processedData = res.data ?? [];
 
     setLocalStorageItem(url, processedData);
     setLocalStorageItem(`${url}_timestamp`, now);
 
-    return processedData;
+    return processedData as T;
   } catch (err) {
     console.error('Error fetching CCTV data:', err);
-    return transformData({} as T);
+    return [] as unknown as T;
   }
 };
 
-const sortCCTVData = (list: CCTV[], favorites: string[]): CCTV[] =>
-  [...list].sort((a, b) => {
-    const aFav = a.cctv_id ? favorites.includes(a.cctv_id) : false;
-    const bFav = b.cctv_id ? favorites.includes(b.cctv_id) : false;
-    return Number(bFav) - Number(aFav) || a.cctv_name.localeCompare(b.cctv_name);
-  });
-
 export const getCCTV = async (): Promise<CCTV[]> => {
-  const favorites = getLocalStorageItem<string[]>('favorites', []);
-  return fetchCCTVData<CCTV[]>('/api/cctv', (cctvList) => sortCCTVData(cctvList, favorites));
+  return fetchCCTVData<CCTV[]>('/api/cctv');
 };
 
 export const getFavoritesCCTV = async (): Promise<CCTV[]> => {
