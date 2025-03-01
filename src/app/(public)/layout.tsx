@@ -9,9 +9,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
       <Navbar />
-      <main className="flex-1 bg-white dark:bg-gray-900 text-gray-900 dark:text-white mt-2">{children}</main>
+      <main className="flex-1 mt-2">{children}</main>
       <Toaster />
       <ScrollToTop />
     </div>
