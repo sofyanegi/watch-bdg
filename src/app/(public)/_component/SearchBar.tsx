@@ -3,7 +3,7 @@ import { Search, X } from 'lucide-react';
 
 export function SearchBar({ searchQuery, handleSearchChange, handleClearSearch }: { searchQuery: string; handleSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void; handleClearSearch: () => void }) {
   return (
-    <div className="p-4 flex justify-center -mt-4 md:mt-0">
+    <div className="p-4 flex justify-center">
       <div className="relative w-full max-w-md">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400" size={18} />
         <Input

@@ -44,7 +44,7 @@ export default function CCTVDetail() {
   if (!cctv) return notFound();
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 px-4 py-2 -mt-4 md:mt-0">
+    <div className="flex flex-col md:flex-row gap-6 px-4 py-2">
       <VideoPlayer cctv={cctv} />
       <div className="w-full md:w-[350px]">
         <CCTVMap cctv={cctv} />

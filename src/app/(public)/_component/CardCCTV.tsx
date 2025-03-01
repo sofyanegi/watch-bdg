@@ -47,7 +47,12 @@ export default function CardCCTV({ cctv_id, cctv_name: title, cctv_stream: strea
           <Link href={`/cctv/${generateSlug(title)}`} className="hover:underline">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white cursor-pointer">{title}</h3>
           </Link>
-          <Button variant="ghost" size="icon" onClick={() => cctv_id && toggleFavorite(cctv_id)} className={cn('rounded-full transition-transform hover:text-yellow-600', isFavorite ? 'text-yellow-500 scale-110' : 'text-gray-400')}>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => cctv_id && toggleFavorite(cctv_id)}
+            className={cn('rounded-full transition-transform hover:text-yellow-600 bg-white dark:bg-gray-800', isFavorite ? 'text-yellow-500 scale-110' : 'text-gray-400')}
+          >
             {isFavorite ? <Star fill="currentColor" /> : <StarOff />}
           </Button>
         </div>
