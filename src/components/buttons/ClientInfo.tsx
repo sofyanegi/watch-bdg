@@ -17,14 +17,6 @@ const ClientInfoDisplay = ({ clientInfo }: { clientInfo: ClientInfo }) => {
         { label: 'Browser', value: `${clientInfo.browser} ${clientInfo.browserVersion}` },
         { label: 'Device Type', value: clientInfo.deviceType },
         { label: 'HLS Supported', value: clientInfo.supportsHLS ? '✅ Yes' : '❌ No' },
-        clientInfo.timezone && { label: 'Timezone', value: clientInfo.timezone },
-        clientInfo.city && { label: 'Location', value: `${clientInfo.city}, ${clientInfo.region}, ${clientInfo.country}` },
-        // { label: 'User-Agent', value: clientInfo.userAgent },
-        // clientInfo.ip && { label: 'IP Address', value: clientInfo.ip },
-        // clientInfo.isp && { label: 'ISP', value: clientInfo.isp },
-        // clientInfo.batteryLevel !== undefined && { label: 'Battery Level', value: `${clientInfo.batteryLevel}%` },
-        // clientInfo.isCharging !== undefined && { label: 'Charging', value: clientInfo.isCharging ? '🔌 Yes' : '❌ No' },
-        // clientInfo.gpu && { label: 'GPU', value: clientInfo.gpu },
       ].filter(Boolean),
     [clientInfo]
   ).filter((item): item is { label: string; value: string } => !!item);
@@ -51,11 +43,27 @@ export default function ClientInfo() {
     { name: 'Dishub Kota Cimahi', url: 'https://smartcity.cimahikota.go.id/cctv#' },
   ];
 
+  const logData = async (data: ClientInfo) => {
+    if (process.env.NODE_ENV !== 'production') return;
+    const now = Date.now();
+    const lastLogTime = Number(localStorage.getItem('lastAccessLog')) || 0;
+    const logInterval = 30 * 60 * 1000; // 30 minutes
+
+    if (now - lastLogTime < logInterval) return;
+
+    try {
+      await logUserAccess(data);
+      localStorage.setItem('lastAccessLog', String(now));
+    } catch (error) {
+      console.error('Failed to log user access:', error);
+    }
+  };
+
   const fetchData = useCallback(async () => {
     try {
       const data = await fetchClientInfo();
       setClientInfo(data);
-      await logUserAccess(data);
+      await logData(data);
     } catch (error) {
       console.error('Failed to fetch client info:', error);
     }
@@ -78,14 +86,14 @@ export default function ClientInfo() {
           <DialogDescription className="text-xs text-gray-500">Disclaimer: This information is displayed for debugging purposes only and is not stored or shared with any third party.</DialogDescription>
           {clientInfo ? <ClientInfoDisplay clientInfo={clientInfo} /> : <LoadingVideo />}
           <p className="text-center font-medium my-2 text-base">All credits go to:</p>
-          <div className="text-sm sm:text-xs mt-4 flex flex-wrap justify-center items-center gap-2">
+          <div className="text-sm sm:text-xs mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-center sm:items-center">
             {creditData.map(({ name, url }) => (
               <Link
                 key={name}
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm rounded-lg transition hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm rounded-lg transition hover:bg-gray-100 dark:hover:bg-gray-700 text-center"
               >
                 {name}
               </Link>
