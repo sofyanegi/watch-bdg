@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased overflow-hidden`}>
+      <body className={`antialiased`}>
         <ThemeProvider>
           <SessionProvider>
             {children}
