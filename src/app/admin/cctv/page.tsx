@@ -3,8 +3,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { CCTV } from '@/types';
 import { Button } from '@/components/ui/button';
-import { DialogBox } from './components/DialogBox';
-import { AlertBox } from './components/AlertBox';
+import { DialogBox } from './_components/DialogBox';
+import { AlertBox } from './_components/AlertBox';
 import { get, post, del, put } from '@/lib/axios';
 import { DataTable } from '@/components/ui/data-table';
 import { columns } from './columns';
@@ -18,7 +18,6 @@ const CCTVManagement: React.FC = () => {
   const [selectedCCTV, setSelectedCCTV] = useState<CCTV | null>(null);
   const { toast } = useToast();
 
-  // Fetch CCTV data
   const fetchCCTVs = useCallback(async () => {
     setLoading(true);
     try {
@@ -75,7 +74,7 @@ const CCTVManagement: React.FC = () => {
   };
 
   return (
-    <div className="p-5">
+    <div className="flex flex-col flex-1 p-5 overflow-y-auto">
       <Button
         variant="outline"
         className="mb-5 dark:bg-gray-800"
