@@ -6,9 +6,9 @@ import { useCCTVStore } from '@/stores/useCCTVStore';
 import { Button } from '@/components/ui/button';
 import ClientInfo from '@/components/buttons/ClientInfo';
 import { ArrowUp, RefreshCw } from 'lucide-react';
-import { SearchBar } from './_component/SearchBar';
-import { CityFilter } from './_component/CityFilter';
-import { CCTVList } from './_component/CCTVList';
+import { SearchBar } from './_components/SearchBar';
+import { CityFilter } from './_components/CityFilter';
+import { CCTVList } from './_components/CCTVList';
 
 export default function Home() {
   const searchParams = useSearchParams();

@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { useFavoritesStore } from '@/stores/useCCTVStore';
 import { Star, StarOff } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { getCityColor } from '@/app/(public)/_component/CityFilter';
+import { getCityColor } from '@/app/(public)/_components/CityFilter';
 
 interface VideoPlayerProps {
   cctv: CCTV;

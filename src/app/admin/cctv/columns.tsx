@@ -4,6 +4,7 @@ import { MoreHorizontal } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import Link from 'next/link';
 
 interface ColumnsProps {
   setDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,14 +21,14 @@ export const columns = ({ setDialogOpen, setAlertOpen, setSelectedCCTV }: Column
   {
     header: 'Stream URL',
     accessorKey: 'cctv_stream',
-  },
-  {
-    header: 'Latitude',
-    accessorKey: 'cctv_lat',
-  },
-  {
-    header: 'Longitude',
-    accessorKey: 'cctv_lng',
+    cell: ({ row }) => {
+      const streamUrl = row.getValue('cctv_stream') as string;
+      return (
+        <Link href={streamUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+          {streamUrl}
+        </Link>
+      );
+    },
   },
   {
     header: 'City',

@@ -1,6 +1,6 @@
 import { useFavoritesStore } from '@/stores/useCCTVStore';
 import CardCCTV from './CardCCTV';
-import SkeletonCard from '@/app/(public)/_component/SkeletonCard';
+import SkeletonCard from '@/app/(public)/_components/SkeletonCard';
 import { CCTV } from '@/types';
 
 export function CCTVList({ data, isLoading, visibleCount }: { data: CCTV[]; isLoading: boolean; visibleCount: number }) {
