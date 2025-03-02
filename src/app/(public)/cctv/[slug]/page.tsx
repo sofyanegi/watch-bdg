@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 import { useCCTVStore } from '@/stores/useCCTVStore';
 import { CCTV } from '@/types';
 import { getDistance, generateSlug } from '@/lib/utils';
-import VideoPlayer from './_component/VideoPlayer';
-import CCTVMap from './_component/CCTVMap';
-import NearestCCTV from './_component/NearestCCTV';
+import VideoPlayer from './_components/VideoPlayer';
+import CCTVMap from './_components/CCTVMap';
+import NearestCCTV from './_components/NearestCCTV';
 import LoadingVideo from '@/components/common/LoadingVideo';
 
 export default function CCTVDetail() {

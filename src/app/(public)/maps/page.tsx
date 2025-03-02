@@ -6,7 +6,7 @@ import { MapContainer, TileLayer, Marker, Popup, ZoomControl } from 'react-leafl
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import L from 'leaflet';
 
-import CardCCTV from '../_component/CardCCTV';
+import CardCCTV from '../_components/CardCCTV';
 import { useCCTVStore } from '@/stores/useCCTVStore';
 
 const cctvIcon = L.icon({
@@ -41,7 +41,7 @@ export default function CCTVMapPage() {
       {isLoading ? (
         <div className="h-[75vh] w-full bg-gray-300 dark:bg-gray-700 rounded-lg animate-pulse" />
       ) : (
-        <MapContainer center={defaultCenter} zoom={12} maxZoom={16} className="h-[80vh] w-full rounded-lg shadow-lg relative markercluster-map" zoomControl={false}>
+        <MapContainer center={defaultCenter} zoom={12} maxZoom={16} className="h-[80vh] w-full rounded-lg shadow-lg relative z-0 markercluster-map" zoomControl={false}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
           <ZoomControl position="bottomright" />
           <MarkerClusterGroup

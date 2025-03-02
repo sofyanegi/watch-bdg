@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { useCCTVStore, useFavoritesStore } from '@/stores/useCCTVStore';
-import CardCCTV from '../_component/CardCCTV';
-import SkeletonCard from '@/app/(public)/_component/SkeletonCard';
+import CardCCTV from '../_components/CardCCTV';
+import SkeletonCard from '@/app/(public)/_components/SkeletonCard';
 import { Button } from '@/components/ui/button';
 
 export default function FavoritesPage() {
