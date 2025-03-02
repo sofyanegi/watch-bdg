@@ -31,6 +31,7 @@ export const columns: ColumnDef<LogEntry>[] = [
   {
     header: 'ISP',
     accessorKey: 'isp',
+    enableSorting: true,
   },
   {
     header: 'Timestamp',

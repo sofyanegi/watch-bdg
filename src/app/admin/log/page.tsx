@@ -48,7 +48,7 @@ export default function LogPages() {
         <LoadingVideo />
       ) : logs.length > 0 ? (
         <>
-          <h1 className="text-2xl font-semibold text-gray-800 mb-5 text-center">User Logs</h1>
+          <h1 className="text-2xl font-semibold mb-5 text-center">User Logs</h1>
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -74,7 +74,7 @@ export default function LogPages() {
         </>
       ) : (
         <div className="text-center">
-          <h1 className="text-2xl font-semibold text-gray-800 mb-5">No logs found</h1>
+          <h1 className="text-2xl font-semibold mb-5">No logs found</h1>
           <Button onClick={fetchLogs}>Refresh</Button>
         </div>
       )}
