@@ -46,3 +46,11 @@ export const extractUserAgent = (userAgent: string): string => {
 
   return brand ? `${browser} on ${brand} (${os})` : `${browser} on ${os} ${isMobile ? '(Mobile)' : '(Desktop)'}`;
 };
+
+export const getProxiedUrl = (url: string) => {
+  return url
+    .replace('https://smartcity.cimahikota.go.id/video/', '/proxy/cimahi/')
+    .replace('https://pelindung.bandung.go.id:3443/video/', '/proxy/bandung/')
+    .replace('https://cctv.atcs-dishubkbb.id/', '/proxy/kbb/')
+    .replace('https://cctv.bandungkab.go.id/', '/proxy/bandungkab/');
+};

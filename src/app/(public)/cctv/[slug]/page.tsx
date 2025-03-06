@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useCCTVStore } from '@/stores/useCCTVStore';
 import { CCTV } from '@/types';
 import { getDistance, generateSlug } from '@/lib/utils';
-import VideoPlayer from './_components/VideoPlayer';
+import VideoCard from './_components/VideoCard';
 import CCTVMap from './_components/CCTVMap';
 import NearestCCTV from './_components/NearestCCTV';
 import LoadingVideo from '@/components/common/LoadingVideo';
@@ -36,7 +36,7 @@ export default function CCTVDetail() {
           .sort((a, b) => a.distance - b.distance)
           .slice(0, 10)
       );
-      setIsLoading(false);
+      setTimeout(() => setIsLoading(false), 500);
     }
   }, [cctvs, slug, fetchCCTVs]);
 
@@ -45,7 +45,7 @@ export default function CCTVDetail() {
 
   return (
     <div className="flex flex-col md:flex-row gap-6 px-4 py-2">
-      <VideoPlayer cctv={cctv} />
+      <VideoCard cctv={cctv} />
       <div className="w-full md:w-[350px]">
         <CCTVMap cctv={cctv} />
         <NearestCCTV cctvList={cctvList} />
