@@ -38,9 +38,9 @@ export default function ClientInfo() {
   const [clientInfo, setClientInfo] = useState<ClientInfo | null>(null);
   const creditData: { name: string; url: string }[] = [
     { name: 'Diskominfo Kota Bandung', url: 'https://pelindung.bandung.go.id' },
-    { name: 'Dishub Kab. Bandung', url: 'https://dishub.bandungkab.go.id/apps/cctv/bandungkab/' },
+    { name: 'Dishub Kab. Bandung', url: 'https://dishub.bandungkab.go.id/apps/cctv/bandungkab' },
     { name: 'Dishub Kab. Bandung Barat', url: 'https://atcs.bandungbaratkab.go.id' },
-    { name: 'Dishub Kota Cimahi', url: 'https://smartcity.cimahikota.go.id/cctv#' },
+    { name: 'Dishub Kota Cimahi', url: 'https://smartcity.cimahikota.go.id/cctv' },
   ];
 
   const logData = async (data: ClientInfo) => {
@@ -85,25 +85,29 @@ export default function ClientInfo() {
           <DialogTitle className="text-lg sm:text-xl font-bold mb-4">📡 Client Info</DialogTitle>
           <DialogDescription className="text-xs text-gray-500">Disclaimer: This information is displayed for debugging purposes only and is not stored or shared with any third party.</DialogDescription>
           {clientInfo ? <ClientInfoDisplay clientInfo={clientInfo} /> : <LoadingVideo />}
-          <p className="text-center font-medium my-2 text-base">All credits go to:</p>
-          <div className="text-sm sm:text-xs mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-center sm:items-center">
-            {creditData.map(({ name, url }) => (
-              <Link
-                key={name}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm rounded-lg transition hover:bg-gray-100 dark:hover:bg-gray-700 text-center"
-              >
-                {name}
-              </Link>
-            ))}
+          <div className="mt-4">
+            <p className="text-center font-semibold text-base">📌 Data Sources</p>
+            <p className="text-center text-xs text-gray-500 mb-3">This application uses data provided by official government sources.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm sm:text-xs sm:flex sm:flex-wrap sm:justify-center">
+              {creditData.map(({ name, url }) => (
+                <Link
+                  key={name}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm rounded-lg transition hover:bg-gray-100 dark:hover:bg-gray-700 text-center"
+                  aria-label={`Visit ${name}`}
+                >
+                  {name}
+                </Link>
+              ))}
+            </div>
           </div>
         </DialogHeader>
         <DialogFooter className="text-xs text-gray-500 mt-4 text-center mx-auto">
           <span className="inline-flex items-center">
-            ©{new Date().getFullYear()} Crafted by
-            <Link href="https://saweria.co/sofyanegi" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline mx-1 font-bold">
+            Crafted by
+            <Link href="https://saweria.co/sofyanegi" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline mx-1 font-bold" aria-label="Support Sofyanegi on Saweria">
               Sofyanegi
             </Link>
           </span>
