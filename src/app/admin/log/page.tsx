@@ -17,7 +17,7 @@ export default function LogPages() {
   const fetchLogs = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await get<LogEntry[]>('/api/cctv/log');
+      const res = await get<LogEntry[]>('/api/log');
       setLogs(res);
     } catch (error) {
       console.error('Error fetching logs:', error);
