@@ -23,7 +23,7 @@ export default function CCTVDetail() {
       fetchCCTVs();
     } else {
       const detailData = cctvs.find((item) => generateSlug(item.cctv_name) === slug);
-      if (!detailData) return;
+      if (!detailData) return notFound();
 
       setCctv(detailData);
       setCctvList(
