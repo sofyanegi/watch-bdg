@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useCallback, useState } from 'react';
+import { motion } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCCTVStore } from '@/stores/useCCTVStore';
 import { Button } from '@/components/ui/button';
@@ -90,14 +91,14 @@ export default function Home() {
         </div>
       )}
       {showButtons && (
-        <div className="fixed right-4 bottom-4 flex flex-col gap-2">
-          <Button onClick={handleScrollToTop} className="p-2 bg-slate-600 text-white rounded-full shadow-lg hover:bg-slate-700 transition">
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="fixed right-4 bottom-4 flex flex-col gap-2">
+          <Button onClick={handleScrollToTop} aria-label="Scroll to top" className="flex items-center justify-center sm:p-3 p-4 bg-slate-600 text-white rounded-lg shadow-lg hover:bg-slate-700 transition">
             <ArrowUp />
           </Button>
-          <Button onClick={handleRefresh} className="p-2 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition">
+          <Button onClick={handleRefresh} aria-label="Refresh page" className="flex items-center justify-center sm:p-3 p-4 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition">
             <RefreshCw />
           </Button>
-        </div>
+        </motion.div>
       )}
       <ClientInfo />
     </>

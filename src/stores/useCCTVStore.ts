@@ -43,7 +43,7 @@ export const useCCTVStore = create<CCTVStore>((set) => ({
     })),
   showMore: () =>
     set((state) => ({
-      visibleCount: state.visibleCount + 3,
+      visibleCount: state.visibleCount + 6,
     })),
 }));
 
