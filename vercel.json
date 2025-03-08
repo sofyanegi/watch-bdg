@@ -1,9 +1,8 @@
 {
   "crons": [
     {
-      "path": "/api/log",
-      "schedule": "0 0 * * *",
-      "method": "DELETE"
+      "path": "/api/cron/delete-logs",
+      "schedule": "0 0 * * *"
     }
   ]
 }
