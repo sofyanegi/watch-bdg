@@ -25,7 +25,7 @@ export default function CardCCTV({ cctv_id, cctv_name, cctv_stream, cctv_city }:
       <div className="p-4 border-t dark:border-gray-700">
         <div className="flex justify-between items-center">
           <Link href={`/cctv/${generateSlug(cctv_name)}`} className="hover:underline">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white cursor-pointer">{cctv_name}</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white cursor-pointer uppercase">{cctv_name}</h3>
           </Link>
           <Button
             variant="outline"
