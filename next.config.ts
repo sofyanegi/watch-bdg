@@ -27,10 +27,6 @@ const nextConfig: NextConfig = {
         destination: 'https://atcs.sumedangkab.go.id/video/:path*',
       },
       {
-        source: '/proxy/garut/:path*',
-        destination: 'https://shinobi.garutkab.go.id/:path*',
-      },
-      {
         source: '/proxy/cianjur/:path*',
         destination: 'https://atcs.cianjurkab.go.id:5443/:path*',
       },
