@@ -138,21 +138,30 @@ export async function getUserAccessLogs(): Promise<LogEntry[]> {
   }
 }
 
-export const deleteAllDocuments = async (collectionName: string): Promise<void> => {
+export const deleteFilteredDocuments = async (collectionName: string, filters?: { field: string; op: any; value: any }[]): Promise<void> => {
   try {
-    const colRef = collection(db, collectionName); // Referensi koleksi
-    const snapshot = await getDocs(colRef); // Ambil semua dokumen dalam koleksi
+    const colRef = collection(db, collectionName);
+    let q: any = colRef;
+
+    // Apply multiple filters dynamically if provided
+    if (filters && filters.length > 0) {
+      filters.forEach(({ field, op, value }) => {
+        q = query(q, where(field, op, value));
+      });
+    }
+
+    const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
-      console.log(`No documents found in collection: ${collectionName}`);
+      console.log(`No documents found in "${collectionName}" with given filters.`);
       return;
     }
 
     const deletePromises = snapshot.docs.map((docSnapshot) => deleteDoc(doc(db, collectionName, docSnapshot.id)));
 
-    await Promise.all(deletePromises); // Tunggu semua dokumen terhapus
-    console.log(`All documents in collection "${collectionName}" have been deleted.`);
+    await Promise.all(deletePromises);
+    console.log(`Deleted documents in "${collectionName}" with given filters.`);
   } catch (error) {
-    console.error(`Error deleting documents in collection "${collectionName}":`, error);
+    console.error(`Error deleting documents in "${collectionName}" with given filters:`, error);
   }
 };
