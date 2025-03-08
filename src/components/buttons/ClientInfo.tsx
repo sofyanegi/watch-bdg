@@ -46,6 +46,7 @@ export default function ClientInfo() {
     { name: 'Dishub Kab. Sumedang', city: 'sumedang', url: 'https://atcs.sumedangkab.go.id' },
     { name: 'Diskominfo Kab. Garut', city: 'kab. garut', url: 'https://dashboard.garutkab.go.id/cctv-galeri' },
     { name: 'Dishub Kab. Cianjur', city: 'kab. cianjur', url: 'https://atcs.cianjurkab.go.id' },
+    { name: 'Dishub Kota Tasikmalaya', city: 'tasik', url: 'https://atcs.tasikmalayakota.go.id' },
   ];
 
   const logData = async (data: ClientInfo) => {

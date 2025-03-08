@@ -34,6 +34,10 @@ const nextConfig: NextConfig = {
         source: '/proxy/cianjur/:path*',
         destination: 'https://atcs.cianjurkab.go.id:5443/:path*',
       },
+      {
+        source: '/proxy/tasik/:path*',
+        destination: 'https://atcs.tasikmalayakota.go.id/:path*',
+      },
     ];
   },
   async headers() {
