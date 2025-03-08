@@ -26,7 +26,7 @@ export default function VideoCard({ cctv }: VideoCardProps) {
 
       <div className="p-4 border-t dark:border-gray-700 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h3 className="text-base md:text-lg lg:text-xl font-semibold">{cctv.cctv_name}</h3>
+          <h3 className="text-base md:text-lg lg:text-xl font-semibold uppercase">{cctv.cctv_name}</h3>
           <Badge className={cn('text-white rounded-full', getCityColor(cctv?.cctv_city || ''))}>{cctv.cctv_city}</Badge>
         </div>
 
