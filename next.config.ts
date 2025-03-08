@@ -32,7 +32,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/proxy/cianjur/:path*',
-        destination: 'https://atcs.cianjurkab.go.id/:path*',
+        destination: 'https://atcs.cianjurkab.go.id:5443/:path*',
       },
     ];
   },
