@@ -22,6 +22,10 @@ const nextConfig: NextConfig = {
         source: '/proxy/bandungkab/:path*',
         destination: 'https://cctv.bandungkab.go.id/:path*',
       },
+      {
+        source: '/proxy/sumedang/:path*',
+        destination: 'https://atcs.sumedangkab.go.id/video/:path*',
+      },
     ];
   },
   async headers() {

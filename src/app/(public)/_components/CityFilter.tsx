@@ -7,6 +7,7 @@ export const getCityColor = (city: string): string => {
     'kab. bandung': 'bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800',
     'bandung barat': 'bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700',
     cimahi: 'bg-orange-500 hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-700',
+    sumedang: 'bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-600 dark:hover:bg-yellow-700',
   };
 
   return colors[city.trim().toLowerCase()] || 'bg-gray-500 dark:bg-gray-700';

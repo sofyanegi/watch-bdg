@@ -52,5 +52,6 @@ export const getProxiedUrl = (url: string) => {
     .replace('https://smartcity.cimahikota.go.id/video/', '/proxy/cimahi/')
     .replace('https://pelindung.bandung.go.id:3443/video/', '/proxy/bandung/')
     .replace('https://cctv.atcs-dishubkbb.id/', '/proxy/kbb/')
-    .replace('https://cctv.bandungkab.go.id/', '/proxy/bandungkab/');
+    .replace('https://cctv.bandungkab.go.id/', '/proxy/bandungkab/')
+    .replace('https://atcs.sumedangkab.go.id/video/', '/proxy/sumedang/');
 };
