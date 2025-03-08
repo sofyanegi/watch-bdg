@@ -17,7 +17,7 @@ export default function NearestCCTV({ cctvList }: NearestCCTVsProps) {
           {cctvList.map((cctvItem) => (
             <div key={cctvItem.cctv_id}>
               <Link href={`/cctv/${generateSlug(cctvItem.cctv_name)}`} className="flex justify-between items-center p-2 bg-white dark:bg-gray-800 shadow-md rounded-lg transition hover:bg-gray-100 dark:hover:bg-gray-700">
-                <p className="text-gray-900 dark:text-gray-200 font-medium text-sm md:text-base truncate w-3/4">{cctvItem.cctv_name}</p>
+                <p className="text-gray-900 dark:text-gray-200 font-medium text-sm md:text-base w-3/4 truncate uppercase">{cctvItem.cctv_name.length > 25 ? `${cctvItem.cctv_name.slice(0, 25)}…` : cctvItem.cctv_name}</p>
                 <span>{cctvItem.distance?.toFixed(2)} km</span>
               </Link>
               <Separator className="my-1 md:my-2" />
