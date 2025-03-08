@@ -24,14 +24,13 @@ export default function VideoCard({ cctv }: VideoCardProps) {
         <VideoJs hlsSrc={streamURL} />
       </div>
 
-      <div className="p-4 border-t dark:border-gray-700 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <h3 className="text-base md:text-lg lg:text-xl font-semibold uppercase">{cctv.cctv_name}</h3>
+      <div className="p-4 border-t dark:border-gray-700 flex items-center justify-between flex-col md:flex-row gap-4">
+        <div className="flex items-center gap-2 flex-col md:flex-row">
+          <h3 className="text-base md:text-lg lg:text-xl font-semibold uppercase text-center">{cctv.cctv_name}</h3>
           <Badge className={cn('text-white rounded-full', getCityColor(cctv?.cctv_city || ''))}>{cctv.cctv_city}</Badge>
         </div>
 
         <div className="flex items-center gap-3">
-          <ShareButton title={cctv.cctv_name} url={typeof window !== 'undefined' ? window.location.href : ''} />
           <Button
             variant="outline"
             size="icon"
@@ -40,6 +39,7 @@ export default function VideoCard({ cctv }: VideoCardProps) {
           >
             {isFavorite ? <Star fill="currentColor" /> : <StarOff />}
           </Button>
+          <ShareButton title={cctv.cctv_name} url={typeof window !== 'undefined' ? window.location.href : ''} />
         </div>
       </div>
     </div>
