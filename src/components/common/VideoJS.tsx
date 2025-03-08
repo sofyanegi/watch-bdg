@@ -59,7 +59,7 @@ export const VideoJs: FC<VideoPlayerProps> = ({ hlsSrc }) => {
           bufferWatermark: { low: 5, high: 10 },
         },
       },
-      sources: [{ src: hlsSrc, type: 'application/x-mpegURL' }],
+      sources: [{ src: hlsSrc, type: hlsSrc.endsWith('.mp4') ? 'video/mp4' : 'application/x-mpegURL' }],
     });
 
     playerRef.current = player;

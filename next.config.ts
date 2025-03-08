@@ -26,6 +26,10 @@ const nextConfig: NextConfig = {
         source: '/proxy/sumedang/:path*',
         destination: 'https://atcs.sumedangkab.go.id/video/:path*',
       },
+      {
+        source: '/proxy/garut/:path*',
+        destination: 'https://shinobi.garutkab.go.id/:path*',
+      },
     ];
   },
   async headers() {
