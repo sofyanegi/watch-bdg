@@ -33,7 +33,7 @@ export default function LogPages() {
   const onDeleteAllLogs = useCallback(async () => {
     try {
       setDeleting(true);
-      await del('/api/cctv/log');
+      await del('/api/log');
       setLogs([]);
     } catch (error) {
       console.error('Error deleting logs:', error);

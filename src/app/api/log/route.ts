@@ -8,7 +8,7 @@ export async function GET() {
 
 export async function DELETE() {
   try {
-    await deleteFilteredDocuments('logs', [{ field: 'ttl', op: '<', value: new Date() }]);
+    await deleteFilteredDocuments('logs_user_access', [{ field: 'ttl', op: '<', value: new Date() }]);
     return NextResponse.json({ message: 'Documents deleted successfully' });
   } catch (error) {
     return NextResponse.json({ message: 'Error deleting documents', error }, { status: 500 });
