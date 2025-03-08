@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { useEffect, useState, useCallback, useMemo } from 'react';
@@ -9,6 +10,7 @@ import type { ClientInfo } from '@/types';
 import { fetchClientInfo } from '@/services/api/clientInfo';
 import Link from 'next/link';
 import { logUserAccess } from '@/app/actions/log';
+import { getCityColor } from '@/app/(public)/_components/CityFilter';
 
 const ClientInfoDisplay = ({ clientInfo }: { clientInfo: ClientInfo }) => {
   const infoList = useMemo(
@@ -36,11 +38,11 @@ const ClientInfoDisplay = ({ clientInfo }: { clientInfo: ClientInfo }) => {
 
 export default function ClientInfo() {
   const [clientInfo, setClientInfo] = useState<ClientInfo | null>(null);
-  const creditData: { name: string; url: string }[] = [
-    { name: 'Diskominfo Kota Bandung', url: 'https://pelindung.bandung.go.id' },
-    { name: 'Dishub Kab. Bandung', url: 'https://dishub.bandungkab.go.id/apps/cctv/bandungkab' },
-    { name: 'Dishub Kab. Bandung Barat', url: 'https://atcs.bandungbaratkab.go.id' },
-    { name: 'Dishub Kota Cimahi', url: 'https://smartcity.cimahikota.go.id/cctv' },
+  const creditData: { name: string; city: string; url: string }[] = [
+    { name: 'Diskominfo Kota Bandung', city: 'bandung', url: 'https://pelindung.bandung.go.id' },
+    { name: 'Dishub Kab. Bandung', city: 'kab. bandung', url: 'https://dishub.bandungkab.go.id/apps/cctv/bandungkab' },
+    { name: 'Dishub Kab. Bandung Barat', city: 'bandung barat', url: 'https://atcs.bandungbaratkab.go.id' },
+    { name: 'Dishub Kota Cimahi', city: 'cimahi', url: 'https://smartcity.cimahikota.go.id/cctv' },
   ];
 
   const logData = async (data: ClientInfo) => {
@@ -80,22 +82,22 @@ export default function ClientInfo() {
           <Info className="w-5 h-5" />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="bg-gray-100 ">
         <DialogHeader>
-          <DialogTitle className="text-lg sm:text-xl font-bold mb-4">📡 Client Info</DialogTitle>
+          {/* <DialogTitle className="text-lg sm:text-xl font-bold mb-4">📡 Client Info</DialogTitle>
           <DialogDescription className="text-xs text-gray-500">Disclaimer: This information is displayed for debugging purposes only and is not stored or shared with any third party.</DialogDescription>
-          {clientInfo ? <ClientInfoDisplay clientInfo={clientInfo} /> : <LoadingVideo />}
+          {clientInfo ? <ClientInfoDisplay clientInfo={clientInfo} /> : <LoadingVideo />} */}
+          <DialogTitle className="text-lg sm:text-xl font-bold mb-4 text-center">Credits</DialogTitle>
+          <DialogDescription className="text-center text-xs text-gray-800 mb-3">This application uses data provided by official government sources.</DialogDescription>
           <div className="mt-4">
-            <p className="text-center font-semibold text-base">📌 Data Sources</p>
-            <p className="text-center text-xs text-gray-500 mb-3">This application uses data provided by official government sources.</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm sm:text-xs sm:flex sm:flex-wrap sm:justify-center">
-              {creditData.map(({ name, url }) => (
+              {creditData.map(({ name, city, url }) => (
                 <Link
                   key={name}
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm rounded-lg transition hover:bg-gray-100 dark:hover:bg-gray-700 text-center"
+                  className={`block px-3 py-2 border shadow-lg rounded-lg font-semibold transition text-center text-white ${getCityColor(city)}`}
                   aria-label={`Visit ${name}`}
                 >
                   {name}
