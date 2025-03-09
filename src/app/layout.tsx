@@ -12,6 +12,7 @@ import { ThemeProvider } from '@/context/ThemeContext';
 
 export const metadata: Metadata = {
   title: 'watch BDG',
+  icons: '/favicon.svg',
   description: 'Bandung Watch is a website that provides information about CCTV in Bandung.',
 };
 

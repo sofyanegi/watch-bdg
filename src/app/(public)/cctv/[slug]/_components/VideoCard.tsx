@@ -20,9 +20,7 @@ export default function VideoCard({ cctv }: VideoCardProps) {
 
   return (
     <div className="w-full md:flex-1 shadow-lg rounded-2xl overflow-hidden transition hover:shadow-xl">
-      <div className="relative w-full aspect-video bg-black overflow-hidden">
-        <VideoJs hlsSrc={streamURL} />
-      </div>
+      <VideoJs hlsSrc={streamURL} />
 
       <div className="p-4 border-t dark:border-gray-700 flex items-center justify-between flex-col md:flex-row gap-4">
         <div className="flex items-center gap-2 flex-col md:flex-row">

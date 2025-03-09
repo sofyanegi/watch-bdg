@@ -18,9 +18,7 @@ export default function CardCCTV({ cctv_id, cctv_name, cctv_stream, cctv_city }:
 
   return (
     <div className="w-full max-w-md bg-white dark:bg-gray-900 shadow-lg rounded-xl overflow-hidden">
-      <div className="relative w-full aspect-video bg-black overflow-hidden">
-        <VideoJs hlsSrc={streamURL} />
-      </div>
+      <VideoJs hlsSrc={streamURL} />
 
       <div className="p-4 border-t dark:border-gray-700">
         <div className="flex justify-between items-center">
