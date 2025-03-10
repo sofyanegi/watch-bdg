@@ -21,7 +21,7 @@ export const VideoJs: FC<VideoPlayerProps> = ({ hlsSrc }) => {
     if (!videoRef.current) return;
 
     observerRef.current?.disconnect();
-    observerRef.current = new IntersectionObserver(([entry]) => setIsVisible(entry.isIntersecting), { threshold: 0.5 });
+    observerRef.current = new IntersectionObserver(([entry]) => setIsVisible(entry.isIntersecting), { threshold: 0.4 });
     observerRef.current.observe(videoRef.current);
 
     return () => observerRef.current?.disconnect();
