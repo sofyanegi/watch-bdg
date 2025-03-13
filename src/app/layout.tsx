@@ -4,6 +4,7 @@ import 'react-leaflet-markercluster/styles';
 
 import { Analytics } from '@vercel/analytics/react';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import NextTopLoader from 'nextjs-toploader';
 
 import type { Metadata } from 'next';
 
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className={`antialiased`}>
         <ThemeProvider>
           <SessionProvider>
+            <NextTopLoader showSpinner />
             {children}
             <Analytics />
             <GoogleAnalytics gaId="G-H5ZCEMC97Y" />
