@@ -56,5 +56,6 @@ export const getProxiedUrl = (url: string) => {
     .replace('https://atcs.sumedangkab.go.id/video/', '/proxy/sumedang/')
     .replace('https://atcs.cianjurkab.go.id:5443', '/proxy/cianjur/')
     .replace('https://atcs.tasikmalayakota.go.id/', '/proxy/tasik/')
-    .replace('https://atcs.banjarkota.go.id:5443/', '/proxy/banjar/');
+    .replace('https://atcs.banjarkota.go.id:5443/', '/proxy/banjar/')
+    .replace('https://streamer.indramayukab.go.id/', '/proxy/indramayu/');
 };
