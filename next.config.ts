@@ -34,6 +34,10 @@ const nextConfig: NextConfig = {
         source: '/proxy/tasik/:path*',
         destination: 'https://atcs.tasikmalayakota.go.id/:path*',
       },
+      {
+        source: '/proxy/banjar/:path*',
+        destination: 'https://atcs.banjarkota.go.id:5443/:path*',
+      },
     ];
   },
   async headers() {
