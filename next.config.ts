@@ -38,6 +38,10 @@ const nextConfig: NextConfig = {
         source: '/proxy/banjar/:path*',
         destination: 'https://atcs.banjarkota.go.id:5443/:path*',
       },
+      {
+        source: '/proxy/indramayu/:path*',
+        destination: 'https://streamer.indramayukab.go.id/:path*',
+      },
     ];
   },
   async headers() {

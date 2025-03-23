@@ -48,6 +48,7 @@ export default function ClientInfo() {
     { name: 'Dishub Kab. Cianjur', city: 'kab. cianjur', url: 'https://atcs.cianjurkab.go.id' },
     { name: 'Dishub Kota Tasikmalaya', city: 'tasikmalaya', url: 'https://atcs.tasikmalayakota.go.id' },
     { name: 'Dishub Kota Banjar', city: 'Banjar', url: 'https://atcs.banjarkota.go.id' },
+    { name: 'Dishub Kab. Indramayu', city: 'Indramayu', url: 'https://cctv.indramayukab.go.id' },
   ];
 
   const logData = async (data: ClientInfo) => {
