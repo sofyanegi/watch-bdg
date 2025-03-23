@@ -11,6 +11,7 @@ export const getCityColor = (city: string): string => {
     'kab. garut': 'bg-teal-500 hover:bg-teal-600 dark:bg-teal-600 dark:hover:bg-teal-700',
     'kab. cianjur': 'bg-lime-500 hover:bg-lime-600 dark:bg-lime-600 dark:hover:bg-lime-700',
     tasikmalaya: 'bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700',
+    banjar: 'bg-rose-800 hover:bg-rose-900 dark:bg-rose-800 dark:hover:bg-rose-900',
   };
 
   return colors[city.trim().toLowerCase()] || 'bg-gray-500 dark:bg-gray-700';
