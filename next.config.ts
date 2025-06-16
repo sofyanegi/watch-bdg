@@ -4,46 +4,6 @@ const nextConfig: NextConfig = {
   images: {
     domains: ['lh3.googleusercontent.com'],
   },
-  async rewrites() {
-    return [
-      {
-        source: '/proxy/cimahi/:path*',
-        destination: 'https://smartcity.cimahikota.go.id/video/:path*',
-      },
-      {
-        source: '/proxy/bandung/:path*',
-        destination: 'https://pelindung.bandung.go.id:3443/video/:path*',
-      },
-      {
-        source: '/proxy/kbb/:path*',
-        destination: 'https://cctv.atcs-dishubkbb.id/:path*',
-      },
-      {
-        source: '/proxy/bandungkab/:path*',
-        destination: 'https://cctv.bandungkab.go.id/:path*',
-      },
-      {
-        source: '/proxy/sumedang/:path*',
-        destination: 'https://atcs.sumedangkab.go.id/video/:path*',
-      },
-      {
-        source: '/proxy/cianjur/:path*',
-        destination: 'https://atcs.cianjurkab.go.id:5443/:path*',
-      },
-      {
-        source: '/proxy/tasik/:path*',
-        destination: 'https://atcs.tasikmalayakota.go.id/:path*',
-      },
-      {
-        source: '/proxy/banjar/:path*',
-        destination: 'https://atcs.banjarkota.go.id:5443/:path*',
-      },
-      {
-        source: '/proxy/indramayu/:path*',
-        destination: 'https://streamer.indramayukab.go.id/:path*',
-      },
-    ];
-  },
   async headers() {
     return [
       {
