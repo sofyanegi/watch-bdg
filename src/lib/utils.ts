@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import slugify from 'slugify';
+import { proxyDestinations } from '@/lib/proxyConfig';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -47,15 +48,13 @@ export const extractUserAgent = (userAgent: string): string => {
   return brand ? `${browser} on ${brand} (${os})` : `${browser} on ${os} ${isMobile ? '(Mobile)' : '(Desktop)'}`;
 };
 
-export const getProxiedUrl = (url: string) => {
-  return url
-    .replace('https://smartcity.cimahikota.go.id/video/', '/proxy/cimahi/')
-    .replace('https://pelindung.bandung.go.id:3443/video/', '/proxy/bandung/')
-    .replace('https://cctv.atcs-dishubkbb.id/', '/proxy/kbb/')
-    .replace('https://cctv.bandungkab.go.id/', '/proxy/bandungkab/')
-    .replace('https://atcs.sumedangkab.go.id/video/', '/proxy/sumedang/')
-    .replace('https://atcs.cianjurkab.go.id:5443', '/proxy/cianjur/')
-    .replace('https://atcs.tasikmalayakota.go.id/', '/proxy/tasik/')
-    .replace('https://atcs.banjarkota.go.id:5443/', '/proxy/banjar/')
-    .replace('https://streamer.indramayukab.go.id/', '/proxy/indramayu/');
+export const getProxiedUrl = (originalUrl: string): string => {
+  const sourceKey = Object.keys(proxyDestinations).find((key) => originalUrl.startsWith(proxyDestinations[key].destination));
+
+  if (sourceKey) {
+    const destination = proxyDestinations[sourceKey].destination;
+    return originalUrl.replace(destination, `/api/proxy/${sourceKey}/`);
+  }
+
+  return originalUrl;
 };
