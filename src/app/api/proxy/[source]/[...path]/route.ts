@@ -5,7 +5,7 @@ import https from 'https';
 import http from 'http';
 import { proxyDestinations } from '@/lib/proxyConfig';
 
-export async function GET(req: NextRequest, { params }: { params: { source: string; path: string[] } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ source: string; path: string[] }> }) {
   try {
     const { source, path } = await params;
 
