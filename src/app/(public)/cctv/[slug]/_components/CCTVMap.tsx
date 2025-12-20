@@ -20,7 +20,7 @@ export default function CCTVMap({ cctv }: CCTVMapProps) {
   return (
     <div className="w-full h-[20vh] md:h-[27vh] rounded-lg overflow-hidden relative z-0">
       <MapContainer center={[Number(cctv.cctv_lat), Number(cctv.cctv_lng)]} zoom={14} minZoom={13} maxZoom={15} scrollWheelZoom={false} className="h-full w-full" zoomControl={false} dragging={false}>
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
+        <TileLayer url="https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}" attribution="&copy; Google Maps" />
         <ZoomControl position="bottomright" />
         <Marker position={[Number(cctv.cctv_lat), Number(cctv.cctv_lng)]} icon={customIcon}>
           <Popup>
