@@ -42,7 +42,7 @@ export default function CCTVMapPage() {
         <div className="h-[75vh] w-full bg-gray-300 dark:bg-gray-700 rounded-lg animate-pulse" />
       ) : (
         <MapContainer center={defaultCenter} zoom={9} maxZoom={16} className="h-[80vh] w-full rounded-lg shadow-lg relative z-0 markercluster-map" zoomControl={false}>
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap contributors" />
+          <TileLayer url="https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}" attribution="&copy; Google Maps" />
           <ZoomControl position="bottomright" />
           <MarkerClusterGroup
             showCoverageOnHover
