@@ -113,7 +113,7 @@ export default function ClientInfo() {
         <DialogFooter className="text-xs text-gray-500 mt-4 text-center mx-auto">
           <span className="inline-flex items-center">
             Crafted by
-            <Link href="https://saweria.co/sofyanegi" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline mx-1 font-bold" aria-label="Support Sofyanegi on Saweria">
+            <Link href="https://www.linkedin.com/in/sofyanegi/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline mx-1 font-bold" aria-label="Support Sofyanegi on Linkedin">
               Sofyanegi
             </Link>
           </span>
